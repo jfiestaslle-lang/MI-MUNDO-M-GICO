@@ -1,0 +1,2175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Mundo Mágico - Biblioteca Virtual Infantil</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        magicalBg: '#F0F9FF',
+                        celeste: '#4FC3F7',
+                        amarillo: '#FFF176',
+                        verde: '#81C784',
+                        rosado: '#F48FB1',
+                        lila: '#CE93D8',
+                        warmYellow: '#FFEE58',
+                        softBlue: '#E0F7FA',
+                    },
+                    fontFamily: {
+                        sans: ['Comic Sans MS', 'Chalkboard SE', 'Comic Neue', 'sans-serif'],
+                    },
+                    animation: {
+                        float: 'float 3s ease-in-out infinite',
+                        bounceSlow: 'bounce 2s infinite',
+                        pulseSlow: 'pulse 3s infinite',
+                        wiggle: 'wiggle 0.5s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        wiggle: {
+                            '0%, 100%': { transform: 'rotate(-3deg)' },
+                            '50%': { transform: 'rotate(3deg)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom styles for accessibility and visual depth */
+        body {
+            background: linear-gradient(135deg, #E0F7FA 0%, #FFFDE7 50%, #F3E5F5 100%);
+            min-height: 100vh;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .btn-magico {
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 6px 0 rgba(0,0,0,0.15);
+        }
+        .btn-magico:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 rgba(0,0,0,0.15);
+        }
+        .card-magica {
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+        }
+        .card-magica:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #E0F7FA;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4FC3F7;
+            border-radius: 10px;
+            border: 3px solid #E0F7FA;
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 antialiased leading-relaxed pb-12">
+
+    <!-- TOP HEADER / NAVBAR -->
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b-4 border-amarillo px-4 py-3 shadow-md">
+        <div class="max-w-6xl mx-auto flex flex-wrap justify-between items-center gap-2">
+            
+            <!-- Logo & Brand -->
+            <div class="flex items-center gap-3 cursor-pointer" onclick="showSection('inicio')">
+                <div class="text-4xl animate-bounceSlow">🦉</div>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-bold text-sky-600 tracking-wide">MI MUNDO MÁGICO</h1>
+                    <p class="text-xs text-pink-500 font-semibold">Biblioteca Virtual Infantil 🌟</p>
+                </div>
+            </div>
+
+            <!-- Profile & Stats Quick Bar -->
+            <div class="flex items-center gap-3 bg-sky-50 px-4 py-2 rounded-full border-2 border-celeste shadow-inner">
+                <div id="header-avatar" class="text-2xl cursor-pointer" onclick="showSection('logros')" title="Cambiar Avatar">🦉</div>
+                <div class="flex items-center gap-1 font-bold text-amber-500 text-lg">
+                    <span>⭐</span> <span id="user-stars">0</span>
+                </div>
+                <div class="h-6 w-0.5 bg-gray-300"></div>
+                <div class="flex items-center gap-1 font-bold text-purple-600 text-sm">
+                    <span>🏅 Nivel</span> <span id="user-level">1</span>
+                </div>
+            </div>
+
+            <!-- Quick Navigation Buttons -->
+            <nav class="flex items-center gap-1 overflow-x-auto py-1 max-w-full">
+                <button onclick="showSection('inicio')" class="px-3 py-1.5 rounded-xl bg-celeste text-white font-bold text-xs md:text-sm hover:bg-sky-400 transition">🏠 Inicio</button>
+                <button onclick="showSection('cuentos')" class="px-3 py-1.5 rounded-xl bg-rosado text-white font-bold text-xs md:text-sm hover:bg-pink-400 transition">📚 Cuentos</button>
+                <button onclick="showSection('canciones')" class="px-3 py-1.5 rounded-xl bg-amarillo text-gray-800 font-bold text-xs md:text-sm hover:bg-yellow-300 transition">🎵 Canciones</button>
+                <button onclick="showSection('habitos')" class="px-3 py-1.5 rounded-xl bg-verde text-white font-bold text-xs md:text-sm hover:bg-green-400 transition">🍎 Hábitos</button>
+                <button onclick="showSection('juegos')" class="px-3 py-1.5 rounded-xl bg-lila text-white font-bold text-xs md:text-sm hover:bg-purple-400 transition">🧠 Juegos</button>
+                <button onclick="showSection('logros')" class="px-3 py-1.5 rounded-xl bg-amber-400 text-white font-bold text-xs md:text-sm hover:bg-amber-500 transition">🏆 Logros</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="max-w-6xl mx-auto px-4 mt-6">
+
+        <!-- SABY THE OWL GUIDE BANNER -->
+        <div id="saby-banner" class="mb-8 bg-gradient-to-r from-sky-100 via-purple-100 to-pink-100 border-4 border-dashed border-celeste rounded-3xl p-4 md:p-6 flex flex-col md:flex-row items-center gap-4 shadow-lg relative overflow-hidden">
+            <div class="relative shrink-0">
+                <div id="saby-character" class="text-7xl md:text-8xl animate-float cursor-pointer" onclick="speakSabyWelcome()">🦉</div>
+                <div class="absolute -top-2 -right-2 bg-yellow-300 text-xs font-bold px-2 py-0.5 rounded-full border border-amber-400 animate-pulse">¡Hazme clic!</div>
+            </div>
+            <div class="flex-1 text-center md:text-left">
+                <h2 class="text-xl md:text-2xl font-bold text-purple-800 mb-1">¡Hola, pequeño explorador! 👋</h2>
+                <p id="saby-dialogue" class="text-gray-700 text-sm md:text-base font-medium">
+                    Soy Saby, tu amigo sabio. ¡Estoy listo para acompañarte a leer cuentos, cantar, aprender hábitos y jugar! ¿Qué quieres explorar hoy?
+                </p>
+            </div>
+            <button onclick="speakSabyDialogue()" class="bg-purple-500 hover:bg-purple-600 text-white font-bold px-4 py-2 rounded-2xl text-sm flex items-center gap-2 btn-magico self-center">
+                <span>🔊</span> Escuchar
+            </button>
+        </div>
+
+        <!-- ==================== SECCIÓN 1: PANTALLA DE INICIO ==================== -->
+        <section id="sec-inicio" class="section-block">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl md:text-4xl font-extrabold text-sky-700 mb-2">¡Bienvenido a Tu Mundo Mágico! 🎉</h2>
+                <p class="text-lg text-gray-600">Elige una aventura para aprender divertidos secretos hoy</p>
+            </div>
+
+            <!-- 5 Big Visual Category Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Card Cuentos -->
+                <div onclick="showSection('cuentos')" class="card-magica cursor-pointer bg-gradient-to-br from-pink-100 to-rose-200 border-4 border-rosado rounded-3xl p-6 text-center flex flex-col items-center justify-between min-h-[220px]">
+                    <div class="text-6xl mb-3">📚</div>
+                    <div>
+                        <h3 class="text-2xl font-extrabold text-pink-700 mb-1">Cuentos Mágicos</h3>
+                        <p class="text-xs text-pink-900 font-medium">10 Historias inolvidables con preguntas diveridas</p>
+                    </div>
+                    <span class="mt-4 inline-block bg-rosado text-white font-bold px-5 py-2 rounded-2xl btn-magico text-sm">¡A Leer! 🚀</span>
+                </div>
+
+                <!-- Card Canciones -->
+                <div onclick="showSection('canciones')" class="card-magica cursor-pointer bg-gradient-to-br from-amber-100 to-yellow-200 border-4 border-amarillo rounded-3xl p-6 text-center flex flex-col items-center justify-between min-h-[220px]">
+                    <div class="text-6xl mb-3">🎵</div>
+                    <div>
+                        <h3 class="text-2xl font-extrabold text-amber-800 mb-1">Canciones Educativas</h3>
+                        <p class="text-xs text-amber-950 font-medium">10 Melodías pegajosas para cantar y memorizar</p>
+                    </div>
+                    <span class="mt-4 inline-block bg-amber-400 text-gray-900 font-bold px-5 py-2 rounded-2xl btn-magico text-sm">¡A Cantar! 🎤</span>
+                </div>
+
+                <!-- Card Hábitos -->
+                <div onclick="showSection('habitos')" class="card-magica cursor-pointer bg-gradient-to-br from-emerald-100 to-green-200 border-4 border-verde rounded-3xl p-6 text-center flex flex-col items-center justify-between min-h-[220px]">
+                    <div class="text-6xl mb-3">🍎</div>
+                    <div>
+                        <h3 class="text-2xl font-extrabold text-emerald-800 mb-1">Hábitos Saludables</h3>
+                        <p class="text-xs text-emerald-950 font-medium">25 Secretos para crecer fuerte, sano y feliz</p>
+                    </div>
+                    <span class="mt-4 inline-block bg-verde text-white font-bold px-5 py-2 rounded-2xl btn-magico text-sm">¡A Aprender! 🌱</span>
+                </div>
+
+                <!-- Card Juegos -->
+                <div onclick="showSection('juegos')" class="card-magica cursor-pointer bg-gradient-to-br from-purple-100 to-indigo-200 border-4 border-lila rounded-3xl p-6 text-center flex flex-col items-center justify-between min-h-[220px]">
+                    <div class="text-6xl mb-3">🧠</div>
+                    <div>
+                        <h3 class="text-2xl font-extrabold text-purple-800 mb-1">Juegos & Misiones</h3>
+                        <p class="text-xs text-purple-950 font-medium">Desafíos divertidos, clasificación y adivinanzas</p>
+                    </div>
+                    <span class="mt-4 inline-block bg-lila text-white font-bold px-5 py-2 rounded-2xl btn-magico text-sm">¡A Jugar! 🎮</span>
+                </div>
+
+                <!-- Card Logros -->
+                <div onclick="showSection('logros')" class="card-magica cursor-pointer bg-gradient-to-br from-sky-100 to-cyan-200 border-4 border-celeste rounded-3xl p-6 text-center flex flex-col items-center justify-between min-h-[220px] sm:col-span-2 lg:col-span-1">
+                    <div class="text-6xl mb-3">🏆</div>
+                    <div>
+                        <h3 class="text-2xl font-extrabold text-sky-800 mb-1">Mis Logros & Medallas</h3>
+                        <p class="text-xs text-sky-950 font-medium">Revisa tus estrellas, trofeos y cambia tu personaje</p>
+                    </div>
+                    <span class="mt-4 inline-block bg-celeste text-white font-bold px-5 py-2 rounded-2xl btn-magico text-sm">¡Ver Medallas! ⭐</span>
+                </div>
+            </div>
+
+            <!-- Big Adventure Start Button -->
+            <div class="mt-10 text-center">
+                <button onclick="showSection('cuentos')" class="bg-gradient-to-r from-pink-500 via-purple-500 to-sky-500 text-white font-extrabold text-xl md:text-2xl px-10 py-5 rounded-full shadow-xl btn-magico animate-pulse hover:scale-105 transform">
+                    ✨ ¡Comenzar Aventura Mágica! ✨
+                </button>
+            </div>
+        </section>
+
+
+        <!-- ==================== SECCIÓN 2: CUENTOS MÁGICOS ==================== -->
+        <section id="sec-cuentos" class="section-block hidden">
+            <!-- Header section -->
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-3xl font-extrabold text-pink-600">📚 Cuentos Mágicos</h2>
+                    <p class="text-sm text-gray-600">Elige un cuento para leer o escuchar</p>
+                </div>
+                <button onclick="showSection('inicio')" class="bg-gray-200 hover:bg-gray-300 font-bold px-4 py-2 rounded-2xl text-sm">
+                    ⬅️ Volver
+                </button>
+            </div>
+
+            <!-- Story Grid Selection -->
+            <div id="cuentos-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Javascript will populate story cards here -->
+            </div>
+
+            <!-- Story Reader Display Area (Hidden by default) -->
+            <div id="cuento-reader" class="hidden bg-white border-4 border-pink-300 rounded-3xl p-6 shadow-xl mt-6">
+                <div class="flex justify-between items-center mb-4 border-b-2 border-pink-100 pb-3">
+                    <button onclick="closeCuentoReader()" class="bg-pink-100 text-pink-700 font-bold px-4 py-2 rounded-2xl hover:bg-pink-200 text-sm">
+                        ⬅️ Volver a Cuentos
+                    </button>
+                    <span id="reader-category" class="bg-pink-200 text-pink-800 text-xs font-bold px-3 py-1 rounded-full">Lectura para 1.º Grado</span>
+                </div>
+
+                <div class="text-center mb-6">
+                    <span id="reader-icon" class="text-7xl block mb-2">📖</span>
+                    <h3 id="reader-title" class="text-2xl md:text-3xl font-extrabold text-pink-700">Título del cuento</h3>
+                </div>
+
+                <!-- Speech Audio Controls -->
+                <div class="bg-pink-50 rounded-2xl p-4 mb-6 border border-pink-200 flex flex-wrap items-center justify-center gap-3">
+                    <span class="font-bold text-pink-800 text-sm w-full text-center md:w-auto">Audio Lectura:</span>
+                    <button onclick="speakCurrentStory()" class="bg-pink-500 text-white font-bold px-4 py-2 rounded-xl text-sm btn-magico flex items-center gap-1">
+                        🔊 Escuchar Cuento
+                    </button>
+                    <button onclick="pauseSpeech()" class="bg-amber-400 text-gray-800 font-bold px-4 py-2 rounded-xl text-sm btn-magico flex items-center gap-1">
+                        ⏸️ Pausar
+                    </button>
+                    <button onclick="resumeSpeech()" class="bg-emerald-500 text-white font-bold px-4 py-2 rounded-xl text-sm btn-magico flex items-center gap-1">
+                        ▶️ Continuar
+                    </button>
+                    <button onclick="stopSpeech()" class="bg-gray-400 text-white font-bold px-4 py-2 rounded-xl text-sm btn-magico flex items-center gap-1">
+                        ⏹️ Detener
+                    </button>
+                </div>
+
+                <!-- Text Story Body -->
+                <div id="reader-content" class="text-gray-800 text-base md:text-lg leading-relaxed space-y-4 max-w-3xl mx-auto bg-amber-50/50 p-6 rounded-2xl border border-amber-200/60 font-medium">
+                    <!-- Paragraphs populated by JS -->
+                </div>
+
+                <!-- Story Moral / Teaching Box -->
+                <div class="mt-8 bg-emerald-50 border-2 border-emerald-300 rounded-2xl p-5 max-w-3xl mx-auto flex items-start gap-4">
+                    <div class="text-4xl">💡</div>
+                    <div>
+                        <h4 class="font-bold text-emerald-800 text-lg">Moraleja (Enseñanza Mágica):</h4>
+                        <p id="reader-moral" class="text-emerald-900 text-sm md:text-base mt-1">Explicación sencilla de la lección del cuento.</p>
+                    </div>
+                </div>
+
+                <!-- Action Button to Evaluation -->
+                <div class="mt-8 text-center">
+                    <button onclick="startCuentoEvaluation()" class="bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-extrabold text-lg px-8 py-4 rounded-2xl shadow-lg btn-magico animate-bounceSlow">
+                        📝 ¡Ya terminé de leer! Ir a las Preguntas ⭐
+                    </button>
+                </div>
+            </div>
+
+            <!-- Story Evaluation Container (Hidden by default) -->
+            <div id="cuento-evaluation" class="hidden bg-white border-4 border-purple-300 rounded-3xl p-6 shadow-xl mt-6">
+                <div class="text-center mb-6">
+                    <span class="text-5xl block mb-2">📝</span>
+                    <h3 id="eval-story-title" class="text-2xl font-bold text-purple-800">Evaluación del Cuento</h3>
+                    <p class="text-sm text-gray-600">Responde todas las preguntas con atención</p>
+                </div>
+
+                <!-- Questions List Container (All visible at once) -->
+                <div id="eval-questions-container" class="space-y-6 max-w-3xl mx-auto">
+                    <!-- Populated dynamically with JS -->
+                </div>
+
+                <!-- Evaluation Action Footer -->
+                <div class="mt-8 text-center flex flex-col items-center gap-4">
+                    <button id="btn-submit-eval" onclick="submitCuentoEval()" class="bg-purple-600 hover:bg-purple-700 text-white font-extrabold text-lg px-8 py-3.5 rounded-2xl btn-magico shadow-lg">
+                        ✅ Terminar Evaluación
+                    </button>
+
+                    <!-- Evaluation Feedback Result Box -->
+                    <div id="eval-results-box" class="hidden w-full max-w-xl bg-purple-50 border-2 border-purple-300 rounded-2xl p-6 text-center">
+                        <div id="eval-score-stars" class="text-4xl mb-2">⭐⭐⭐</div>
+                        <h4 id="eval-score-title" class="text-2xl font-bold text-purple-800 mb-2">¡Excelente Trabajo!</h4>
+                        <p id="eval-score-text" class="text-gray-700 font-medium mb-4">Acertaste 4 de 4 preguntas.</p>
+                        
+                        <div id="eval-errors-breakdown" class="text-left text-xs text-red-600 bg-red-50 p-3 rounded-xl mb-4 hidden">
+                            <!-- Friendly explanation of missed questions -->
+                        </div>
+
+                        <div class="flex justify-center gap-3">
+                            <button onclick="retryCuentoEval()" class="bg-amber-400 hover:bg-amber-500 text-gray-900 font-bold px-4 py-2 rounded-xl text-sm btn-magico">
+                                🔄 Intentar de Nuevo
+                            </button>
+                            <button onclick="closeCuentoEval()" class="bg-purple-600 hover:bg-purple-700 text-white font-bold px-4 py-2 rounded-xl text-sm btn-magico">
+                                📚 Volver a Cuentos
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ==================== SECCIÓN 3: CANCIONES EDUCATIVAS ==================== -->
+        <section id="sec-canciones" class="section-block hidden">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-3xl font-extrabold text-amber-700">🎵 Canciones Educativas</h2>
+                    <p class="text-sm text-gray-600">Escucha, canta y aprende ritmo y conocimiento</p>
+                </div>
+                <button onclick="showSection('inicio')" class="bg-gray-200 hover:bg-gray-300 font-bold px-4 py-2 rounded-2xl text-sm">
+                    ⬅️ Volver
+                </button>
+            </div>
+
+            <!-- Song List Grid -->
+            <div id="canciones-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Populated dynamically -->
+            </div>
+
+            <!-- Song Player & Lyrics Modal / Area -->
+            <div id="cancion-player" class="hidden bg-white border-4 border-amber-300 rounded-3xl p-6 shadow-xl mt-6">
+                <div class="flex justify-between items-center mb-4 border-b-2 border-amber-100 pb-3">
+                    <button onclick="closeCancionPlayer()" class="bg-amber-100 text-amber-800 font-bold px-4 py-2 rounded-2xl hover:bg-amber-200 text-sm">
+                        ⬅️ Volver a Canciones
+                    </button>
+                    <span class="bg-amber-200 text-amber-900 text-xs font-bold px-3 py-1 rounded-full">Música Infantil</span>
+                </div>
+
+                <div class="text-center mb-6">
+                    <span id="song-icon" class="text-7xl block mb-2 animate-bounceSlow">🎤</span>
+                    <h3 id="song-title" class="text-2xl md:text-3xl font-extrabold text-amber-800">Título de la Canción</h3>
+                </div>
+
+                <!-- Controls -->
+                <div class="bg-amber-50 rounded-2xl p-4 mb-6 border border-amber-200 flex flex-wrap items-center justify-center gap-3">
+                    <button onclick="playSynthesizedSong()" class="bg-amber-500 hover:bg-amber-600 text-white font-bold px-5 py-2.5 rounded-xl text-base btn-magico flex items-center gap-2">
+                        ▶️ Reproducir Canción & Melodía
+                    </button>
+                    <button onclick="stopSong()" class="bg-gray-400 hover:bg-gray-500 text-white font-bold px-4 py-2.5 rounded-xl text-sm btn-magico">
+                        ⏹️ Detener
+                    </button>
+                </div>
+
+                <!-- Song Lyrics -->
+                <div class="bg-yellow-50/70 border-2 border-dashed border-amber-300 rounded-2xl p-6 max-w-2xl mx-auto text-center mb-6">
+                    <h4 class="text-xs font-bold text-amber-700 uppercase tracking-wider mb-3">🎵 Letra de la Canción 🎵</h4>
+                    <div id="song-lyrics" class="text-base md:text-lg font-medium text-gray-800 space-y-2 leading-relaxed">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Post-Song Mini Challenge -->
+                <div id="song-minigame" class="bg-purple-50 border-2 border-purple-200 rounded-2xl p-5 max-w-2xl mx-auto text-center">
+                    <h4 class="font-bold text-purple-800 text-base mb-2">⭐ Reto Musical Rápido ⭐</h4>
+                    <p id="song-question" class="text-sm text-gray-700 mb-3">¿Qué aprendimos en esta canción?</p>
+                    <div id="song-options" class="flex flex-wrap justify-center gap-2">
+                        <!-- Options populated by JS -->
+                    </div>
+                    <div id="song-game-feedback" class="mt-3 font-bold text-sm hidden"></div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ==================== SECCIÓN 4: HÁBITOS SALUDABLES ==================== -->
+        <section id="sec-habitos" class="section-block hidden">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-3xl font-extrabold text-emerald-700">🍎 25 Hábitos Saludables</h2>
+                    <p class="text-sm text-gray-600">Aprende a cuidar tu cuerpo, tu mente y tu planeta</p>
+                </div>
+                <button onclick="showSection('inicio')" class="bg-gray-200 hover:bg-gray-300 font-bold px-4 py-2 rounded-2xl text-sm">
+                    ⬅️ Volver
+                </button>
+            </div>
+
+            <!-- Daily Habits Checklist Challenge Box -->
+            <div class="bg-gradient-to-r from-emerald-100 to-teal-100 border-3 border-emerald-400 rounded-3xl p-5 mb-8 shadow-md">
+                <div class="flex items-center justify-between flex-wrap gap-2 mb-3">
+                    <div class="flex items-center gap-2">
+                        <span class="text-3xl">🗓️</span>
+                        <div>
+                            <h3 class="font-bold text-emerald-900 text-lg">Reto Diario de Hábitos</h3>
+                            <p class="text-xs text-emerald-800">¡Marca los hábitos que practicaste hoy para ganar puntos y medallas!</p>
+                        </div>
+                    </div>
+                    <div class="bg-white px-3 py-1 rounded-full border border-emerald-300 text-xs font-bold text-emerald-800">
+                        Completados hoy: <span id="habits-today-count" class="text-emerald-600 font-extrabold">0</span> / 25
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category Filter Tabs -->
+            <div class="flex overflow-x-auto gap-2 pb-3 mb-6">
+                <button onclick="filterHabits('all')" class="habit-tab px-4 py-2 rounded-2xl font-bold text-xs md:text-sm bg-emerald-600 text-white shrink-0">Todos (25)</button>
+                <button onclick="filterHabits('A')" class="habit-tab px-4 py-2 rounded-2xl font-bold text-xs md:text-sm bg-white text-gray-700 hover:bg-emerald-100 shrink-0 border border-emerald-200">🧼 Higiene Personal</button>
+                <button onclick="filterHabits('B')" class="habit-tab px-4 py-2 rounded-2xl font-bold text-xs md:text-sm bg-white text-gray-700 hover:bg-emerald-100 shrink-0 border border-emerald-200">🥗 Alimentación</button>
+                <button onclick="filterHabits('C')" class="habit-tab px-4 py-2 rounded-2xl font-bold text-xs md:text-sm bg-white text-gray-700 hover:bg-emerald-100 shrink-0 border border-emerald-200">⚽ Ejercicio & Sueño</button>
+                <button onclick="filterHabits('D')" class="habit-tab px-4 py-2 rounded-2xl font-bold text-xs md:text-sm bg-white text-gray-700 hover:bg-emerald-100 shrink-0 border border-emerald-200">❤️ Bienestar</button>
+                <button onclick="filterHabits('E')" class="habit-tab px-4 py-2 rounded-2xl font-bold text-xs md:text-sm bg-white text-gray-700 hover:bg-emerald-100 shrink-0 border border-emerald-200">🛡️ Cuidado & Entorno</button>
+            </div>
+
+            <!-- Habits Grid Container -->
+            <div id="habitos-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Dynamically filled by Javascript -->
+            </div>
+        </section>
+
+
+        <!-- ==================== SECCIÓN 5: JUEGOS Y EVALUACIONES ==================== -->
+        <section id="sec-juegos" class="section-block hidden">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-3xl font-extrabold text-purple-700">🧠 Juegos & Misiones</h2>
+                    <p class="text-sm text-gray-600">Demuestra tus superpoderes resolviendo desafíos</p>
+                </div>
+                <button onclick="showSection('inicio')" class="bg-gray-200 hover:bg-gray-300 font-bold px-4 py-2 rounded-2xl text-sm">
+                    ⬅️ Volver
+                </button>
+            </div>
+
+            <!-- Mini Game Menu Cards -->
+            <div id="juegos-menu" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Game 1 -->
+                <div onclick="startMinigame(1)" class="card-magica cursor-pointer bg-emerald-50 border-4 border-emerald-300 rounded-3xl p-5 text-center flex flex-col items-center justify-between">
+                    <div class="text-5xl mb-2">🍎🥦 vs 🍏🍬</div>
+                    <h3 class="text-xl font-bold text-emerald-800">1. Clasificador de Alimentos</h3>
+                    <p class="text-xs text-gray-600 mt-1">¿Es un alimento saludable o una golosina ocasional?</p>
+                    <span class="mt-4 bg-emerald-500 text-white font-bold px-4 py-2 rounded-xl text-xs btn-magico">¡Jugar Ahora! 🎮</span>
+                </div>
+
+                <!-- Game 2 -->
+                <div onclick="startMinigame(2)" class="card-magica cursor-pointer bg-sky-50 border-4 border-sky-300 rounded-3xl p-5 text-center flex flex-col items-center justify-between">
+                    <div class="text-5xl mb-2">🧼🖐️💧</div>
+                    <h3 class="text-xl font-bold text-sky-800">2. Pasos del Lavado de Manos</h3>
+                    <p class="text-xs text-gray-600 mt-1">Ordena los pasos para lavarte las manos de forma limpia</p>
+                    <span class="mt-4 bg-sky-500 text-white font-bold px-4 py-2 rounded-xl text-xs btn-magico">¡Jugar Ahora! 🎮</span>
+                </div>
+
+                <!-- Game 3 -->
+                <div onclick="startMinigame(3)" class="card-magica cursor-pointer bg-pink-50 border-4 border-pink-300 rounded-3xl p-5 text-center flex flex-col items-center justify-between">
+                    <div class="text-5xl mb-2">🐺👑🐷</div>
+                    <h3 class="text-xl font-bold text-pink-800">3. ¿De qué cuento es?</h3>
+                    <p class="text-xs text-gray-600 mt-1">Relaciona el personaje con la historia correcta</p>
+                    <span class="mt-4 bg-pink-500 text-white font-bold px-4 py-2 rounded-xl text-xs btn-magico">¡Jugar Ahora! 🎮</span>
+                </div>
+
+                <!-- Game 4 -->
+                <div onclick="startMinigame(4)" class="card-magica cursor-pointer bg-amber-50 border-4 border-amber-300 rounded-3xl p-5 text-center flex flex-col items-center justify-between">
+                    <div class="text-5xl mb-2">🔤 1️⃣2️⃣3️⃣</div>
+                    <h3 class="text-xl font-bold text-amber-800">4. Vocales y Números Mágicos</h3>
+                    <p class="text-xs text-gray-600 mt-1">Reconoce vocales y cuenta objetos rápidamente</p>
+                    <span class="mt-4 bg-amber-500 text-white font-bold px-4 py-2 rounded-xl text-xs btn-magico">¡Jugar Ahora! 🎮</span>
+                </div>
+
+                <!-- Game 5 -->
+                <div onclick="startMinigame(5)" class="card-magica cursor-pointer bg-purple-50 border-4 border-purple-300 rounded-3xl p-5 text-center flex flex-col items-center justify-between sm:col-span-2 lg:col-span-1">
+                    <div class="text-5xl mb-2">🔮❓</div>
+                    <h3 class="text-xl font-bold text-purple-800">5. Adivinanzas Mágicas</h3>
+                    <p class="text-xs text-gray-600 mt-1">Descubre las adivinanzas infantiles más divertidas</p>
+                    <span class="mt-4 bg-purple-500 text-white font-bold px-4 py-2 rounded-xl text-xs btn-magico">¡Jugar Ahora! 🎮</span>
+                </div>
+            </div>
+
+            <!-- Mini Game Active Container Area -->
+            <div id="minigame-container" class="hidden bg-white border-4 border-purple-300 rounded-3xl p-6 shadow-xl mt-6">
+                <div class="flex justify-between items-center mb-4 border-b pb-3">
+                    <button onclick="closeMinigame()" class="bg-gray-100 font-bold px-4 py-2 rounded-2xl text-sm hover:bg-gray-200">
+                        ⬅️ Volver a Juegos
+                    </button>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-bold text-gray-500">Dificultad:</span>
+                        <select id="game-difficulty" onchange="changeGameDifficulty()" class="bg-purple-100 text-purple-800 font-bold text-xs rounded-xl px-3 py-1 border border-purple-300">
+                            <option value="fácil">🟢 Fácil</option>
+                            <option value="intermedio">🟡 Intermedio</option>
+                            <option value="desafío">🔴 Desafío</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="game-content-area">
+                    <!-- Dynamic Game HTML Loaded Here -->
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ==================== SECCIÓN 6: MIS LOGROS Y PERFIL ==================== -->
+        <section id="sec-logros" class="section-block hidden">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-3xl font-extrabold text-amber-600">🏆 Mis Logros & Medallas</h2>
+                    <p class="text-sm text-gray-600">Tu progreso mágico y trofeos ganados</p>
+                </div>
+                <button onclick="showSection('inicio')" class="bg-gray-200 hover:bg-gray-300 font-bold px-4 py-2 rounded-2xl text-sm">
+                    ⬅️ Volver
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                
+                <!-- Avatar Selector & Profile Box -->
+                <div class="bg-gradient-to-br from-amber-50 to-orange-100 border-3 border-amber-300 rounded-3xl p-6 text-center shadow-md">
+                    <h3 class="font-bold text-amber-900 text-lg mb-2">Tu Avatar Explorador</h3>
+                    <div id="profile-avatar-display" class="text-7xl mb-3 animate-float">🦉</div>
+                    <p class="text-xs text-gray-600 mb-4">Haz clic para elegir tu personaje favorito:</p>
+                    <div class="flex justify-center gap-2">
+                        <button onclick="setAvatar('🦉')" class="text-2xl p-2 rounded-xl bg-white border hover:scale-110 transition">🦉</button>
+                        <button onclick="setAvatar('🐱')" class="text-2xl p-2 rounded-xl bg-white border hover:scale-110 transition">🐱</button>
+                        <button onclick="setAvatar('🐻')" class="text-2xl p-2 rounded-xl bg-white border hover:scale-110 transition">🐻</button>
+                        <button onclick="setAvatar('🐰')" class="text-2xl p-2 rounded-xl bg-white border hover:scale-110 transition">🐰</button>
+                        <button onclick="setAvatar('🐲')" class="text-2xl p-2 rounded-xl bg-white border hover:scale-110 transition">🐲</button>
+                    </div>
+                </div>
+
+                <!-- Overall Stats Box -->
+                <div class="md:col-span-2 bg-white border-3 border-sky-200 rounded-3xl p-6 shadow-md flex flex-col justify-between">
+                    <h3 class="font-bold text-sky-900 text-lg mb-3">Resumen de Progreso</h3>
+                    
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+                        <div class="bg-pink-50 p-3 rounded-2xl border border-pink-200">
+                            <span class="text-3xl block">📚</span>
+                            <span id="stat-stories" class="text-xl font-extrabold text-pink-700">0 / 10</span>
+                            <span class="text-xs text-gray-600 font-medium block">Cuentos Leídos</span>
+                        </div>
+                        <div class="bg-amber-50 p-3 rounded-2xl border border-amber-200">
+                            <span class="text-3xl block">🎵</span>
+                            <span id="stat-songs" class="text-xl font-extrabold text-amber-700">0 / 10</span>
+                            <span class="text-xs text-gray-600 font-medium block">Canciones</span>
+                        </div>
+                        <div class="bg-emerald-50 p-3 rounded-2xl border border-emerald-200">
+                            <span class="text-3xl block">🍎</span>
+                            <span id="stat-habits" class="text-xl font-extrabold text-emerald-700">0 / 25</span>
+                            <span class="text-xs text-gray-600 font-medium block">Hábitos Practicados</span>
+                        </div>
+                        <div class="bg-purple-50 p-3 rounded-2xl border border-purple-200">
+                            <span class="text-3xl block">🧠</span>
+                            <span id="stat-games" class="text-xl font-extrabold text-purple-700">0</span>
+                            <span class="text-xs text-gray-600 font-medium block">Juegos Superados</span>
+                        </div>
+                    </div>
+
+                    <!-- Total Stars Progress Bar -->
+                    <div class="mt-4">
+                        <div class="flex justify-between text-xs font-bold text-gray-600 mb-1">
+                            <span>Siguiente Nivel de Explorador</span>
+                            <span id="level-progress-text">0 / 100 Estrellas</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-4 overflow-hidden p-0.5 border">
+                            <div id="level-progress-bar" class="bg-gradient-to-r from-amber-400 to-yellow-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Badges Unlocked Section -->
+            <h3 class="text-2xl font-extrabold text-gray-800 mb-4">Medallas e Insignias</h3>
+            <div id="badges-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Javascript dynamically renders badges -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="mt-12 text-center text-xs text-gray-500 py-6 border-t border-gray-200">
+        <p class="font-medium">✨ Mi Mundo Mágico: Biblioteca Virtual Infantil para Primer Grado ✨</p>
+        <p class="mt-1">Diseñado para fomentar la lectura, música, comprensión e higiene autónoma.</p>
+    </footer>
+
+
+    <!-- JavaScript Data & Logic Block -->
+    <script>
+        /* ==================== GLOBAL APP STATE & STORAGE ==================== */
+        const APP_STATE = {
+            stars: 0,
+            level: 1,
+            avatar: '🦉',
+            completedStories: [],
+            completedSongs: [],
+            practicedHabits: [],
+            completedGames: 0,
+            badgeUnlocked: []
+        };
+
+        // Sound FX synthesizers using Web Audio API
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            const now = audioCtx.currentTime;
+
+            if (type === 'success') {
+                // High chime melody
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(523.25, now); // C5
+                osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
+                osc.frequency.setValueAtTime(783.99, now + 0.2); // G5
+                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
+                osc.start(now);
+                osc.stop(now + 0.5);
+            } else if (type === 'click') {
+                // Soft pop sound
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(400, now);
+                osc.frequency.exponentialRampToValueAtTime(100, now + 0.08);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+                osc.start(now);
+                osc.stop(now + 0.08);
+            } else if (type === 'star') {
+                // Star reward sound
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(880, now);
+                osc.frequency.setValueAtTime(1760, now + 0.15);
+                gain.gain.setValueAtTime(0.25, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+                osc.start(now);
+                osc.stop(now + 0.4);
+            }
+        }
+
+        // Web Speech API Narrator
+        let synth = window.speechSynthesis;
+        let currentUtterance = null;
+
+        function speakText(text, callback) {
+            if (!synth) return;
+            synth.cancel(); // Stop current
+            currentUtterance = new SpeechSynthesisUtterance(text);
+            currentUtterance.lang = 'es-ES';
+            currentUtterance.rate = 0.88; // Slightly slower for 1st graders
+            currentUtterance.pitch = 1.1; // Friendly tone
+            if (callback) currentUtterance.onend = callback;
+            synth.speak(currentUtterance);
+        }
+
+        function pauseSpeech() { if (synth) synth.pause(); }
+        function resumeSpeech() { if (synth) synth.resume(); }
+        function stopSpeech() { if (synth) synth.cancel(); }
+
+        /* ==================== DATA: 10 CUENTOS COMPLETOS ==================== */
+        const STORIES_DATA = [
+            {
+                id: 1,
+                title: "1. Caperucita Roja",
+                icon: "🧺",
+                summary: "La historia de Caperucita y el lobo del bosque.",
+                content: [
+                    "Había una vez una niña muy alegre que usaba siempre una capa de color rojo. Todos la llamaban Caperucita Roja.",
+                    "Un día, su mamá le dijo: —Lleva esta cesta con pan y frutas a la casa de tu abuelita, que está enfermita. ¡Pero ten cuidado y no te apartes del camino del bosque!",
+                    "En el camino, Caperucita se encontró con un lobo astuto. El lobo le preguntó a dónde iba y la engañó para tomar un camino más largo.",
+                    "El lobo corrió rápido a la casa de la abuelita, pero un leñador muy bueno que pasaba por allí ayudó a la abuelita y ahuyentó al lobo para siempre.",
+                    "Caperucita aprendió que siempre debe obedecer a su mamá y no conversar con desconocidos."
+                ],
+                moral: "Debemos escuchar los consejos de nuestros padres para mantenernos seguros y protegidos.",
+                questions: [
+                    {
+                        q: "1. ¿A quién iba a visitar Caperucita Roja?",
+                        options: ["A su abuelita", "A su profesora", "A su amiga del colegio"],
+                        correct: 0,
+                        exp: "Caperucita iba a llevarle comida a su abuelita que estaba enfermita."
+                    },
+                    {
+                        q: "2. ¿Qué llevaba Caperucita en su cesta?",
+                        options: ["Juguetes", "Pan y frutas ricas", "Libros escolares"],
+                        correct: 1,
+                        exp: "En la cesta llevaba pan y frutas para alimentar a su abuelita."
+                    },
+                    {
+                        q: "3. ¿Qué animal astuto se encontró en el bosque?",
+                        options: ["Un lobo", "Un elefante", "Un gatito"],
+                        correct: 0,
+                        exp: "Se encontró con un lobo que la engañó."
+                    },
+                    {
+                        q: "4. ¿Quién ayudó a salvar a la abuelita y a Caperucita?",
+                        options: ["Un leñador bueno", "Un policía", "Un bombero"],
+                        correct: 0,
+                        exp: "El leñador bueno que pasaba por allí las protegió."
+                    }
+                ]
+            },
+            {
+                id: 2,
+                title: "2. Los tres cerditos",
+                icon: "🐷",
+                summary: "Tres hermanitos construyen sus casas para protegerse del lobo.",
+                content: [
+                    "Tres hermanitos cerditos decidieron construir sus propias casas en el bosque.",
+                    "El primer cerdito, por jugar rápido, hizo su casa de paja. El segundo cerdito hizo su casa de madera. Pero el tercer cerdito trabajó muy duro y construyó su casa de ladrillos fuertes.",
+                    "Un día vino el lobo feroz. Sopló y sopló, y la casa de paja se cayó. Sopló y sopló, y la casa de madera también destruyó.",
+                    "Los dos cerditos corrieron asustados a la casa de ladrillos de su hermano mayor. El lobo sopló con todas sus fuerzas, ¡pero la casa de ladrillos ni se movió!",
+                    "El lobo se cansó y se fue. Los dos cerditos aprendieron que el trabajo con esfuerzo tiene mejores recompensas."
+                ],
+                moral: "Hacer las cosas con paciencia, dedicación y esfuerzo nos da seguridad y grandes resultados.",
+                questions: [
+                    {
+                        q: "1. ¿De qué material hizo su casa el cerdito más trabajador?",
+                        options: ["De paja", "De madera", "De ladrillos fuertes"],
+                        correct: 2,
+                        exp: "El cerdito mayor trabajó mucho y la hizo de ladrillos resistentes."
+                    },
+                    {
+                        q: "2. ¿Por qué se cayeron las dos primeras casas?",
+                        options: ["Porque llovió mucho", "Porque el lobo sopló fuerte", "Porque se cayeron solas"],
+                        correct: 1,
+                        exp: "El lobo sopló con fuerza y la paja y madera eran débiles."
+                    },
+                    {
+                        q: "3. ¿Qué aprendieron los dos cerditos menores?",
+                        options: ["Que hay que esforzarse en el trabajo", "Que no deben jugar", "Que deben vivir en la selva"],
+                        correct: 0,
+                        exp: "Aprendieron que hacer las cosas bien y con esfuerzo es muy importante."
+                    },
+                    {
+                        q: "4. ¿Cuántos cerditos eran en la historia?",
+                        options: ["Dos cerditos", "Tres cerditos", "Cuatro cerditos"],
+                        correct: 1,
+                        exp: "Eran tres hermanitos cerditos."
+                    }
+                ]
+            },
+            {
+                id: 3,
+                title: "3. El patito feo",
+                icon: "🦆",
+                summary: "Un patito diferente descubre lo especial que es en realidad.",
+                content: [
+                    "Nació en la granja un patito muy diferente a sus hermanos. Su plumaje era gris y todos decían que era feo.",
+                    "El patito se sentía muy triste porque nadie quería jugar con él, así que decidió recorrer el mundo.",
+                    "Pasó un invierno frío solo, pero cuando llegó la primavera, vio su reflejo en el agua transparente del estanque.",
+                    "¡Sorpresa! Ya no era un patito gris, ¡se había convertido en un hermoso cisne blanco!",
+                    "Comprendió que ser diferente es algo maravilloso y que todos tenemos un brillo especial en nuestro interior."
+                ],
+                moral: "Todas las personas somos valiosas e importantes tal como somos. La verdadera belleza está en el corazón.",
+                questions: [
+                    {
+                        q: "1. ¿Cómo se sentía el patito al principio?",
+                        options: ["Feliz", "Triste porque se sentía diferente", "Enojado con el sol"],
+                        correct: 1,
+                        exp: "Se sentía triste porque los demás no lo comprendían."
+                    },
+                    {
+                        q: "2. ¿En qué hermoso ave se convirtió al crecer?",
+                        options: ["En un cisne blanco", "En un águila grande", "En un loro verde"],
+                        correct: 0,
+                        exp: "Creció y descubrió que era un hermoso cisne."
+                    },
+                    {
+                        q: "3. ¿Qué enseñanza nos deja esta historia?",
+                        options: ["Que todos somos especiales a nuestra manera", "Que hay que correr rápido", "Que no debemos nadar"],
+                        correct: 0,
+                        exp: "Todos somos únicos, valiosos y especiales."
+                    },
+                    {
+                        q: "4. ¿En qué estación del año se vio en el espejo de agua?",
+                        options: ["En invierno", "En primavera", "En otoño"],
+                        correct: 1,
+                        exp: "Llegó la primavera y descubrió su verdadera forma."
+                    }
+                ]
+            },
+            {
+                id: 4,
+                title: "4. La liebre y la tortuga",
+                icon: "🐢",
+                summary: "Una carrera donde la constancia vence a la presunción.",
+                content: [
+                    "La liebre era muy veloz pero le gustaba presumir y burlarse de la tortuga por ser lenta.",
+                    "Un día, la tortuga le dijo: —¡Te desafío a una carrera hasta la colina! La liebre aceptó riéndose.",
+                    "Iniciada la carrera, la liebre corrió rápido y, como vio a la tortuga lejos, se echó a dormir una siesta bajo un árbol.",
+                    "Mientras la liebre dormía, la tortuga caminó sin detenerse, paso a paso, despacio pero firme.",
+                    "Cuando la liebre despertó, ¡la tortuga ya había cruzado la meta y ganado la carrera!"
+                ],
+                moral: "La constancia y el esfuerzo valen más que presumir sin trabajar.",
+                questions: [
+                    {
+                        q: "1. ¿Por qué la liebre se burlaba de la tortuga?",
+                        options: ["Por ser muy rápida", "Por caminar despacio", "Por ser verde"],
+                        correct: 1,
+                        exp: "La liebre presumía porque la tortuga caminaba despacio."
+                    },
+                    {
+                        q: "2. ¿Qué se puso a hacer la liebre en medio de la carrera?",
+                        options: ["A dormir una siesta", "A comer zanahorias", "A leer un libro"],
+                        correct: 0,
+                        exp: "Se confió y se durmió debajo de un árbol."
+                    },
+                    {
+                        q: "3. ¿Quién ganó la carrera final?",
+                        options: ["La liebre", "La tortuga constante", "Un zorrito"],
+                        correct: 1,
+                        exp: "La tortuga ganó porque caminó sin rendirse jamás."
+                    },
+                    {
+                        q: "4. ¿Qué actitud aprendimos a no imitar de la liebre?",
+                        options: ["Ser presuntuoso y confiado", "Ser rápido en el deporte", "Dormir bien de noche"],
+                        correct: 0,
+                        exp: "No debemos burlarnos de los demás ni confiarnos sin esforzarnos."
+                    }
+                ]
+            },
+            {
+                id: 5,
+                title: "5. Blancanieves",
+                icon: "🍎",
+                summary: "La dulce Blancanieves encuentra amigos leales en el bosque.",
+                content: [
+                    "Blancanieves era una princesa muy buena y cariñosa que amaba a los animales y a las flores.",
+                    "Un día se perdió en el bosque y encontró una pequeña casita con siete sillitas y siete camitas.",
+                    "Allí vivían siete enanitos trabajadores que la recibieron con alegría y cariño.",
+                    "Blancanieves los ayudaba a mantener limpia la casita y ellos la protegían de cualquier peligro.",
+                    "Con la ayuda de la bondad y la amistad de sus amigos, Blancanieves vivió siempre protegida y feliz."
+                ],
+                moral: "La amabilidad y tratar con cariño a los demás genera amistades sinceras y verdaderas.",
+                questions: [
+                    {
+                        q: "1. ¿Cómo era el corazón de Blancanieves?",
+                        options: ["Malo y envidioso", "Bueno, dulce y cariñoso", "Enojado"],
+                        correct: 1,
+                        exp: "Era muy buena y cariñosa con todos."
+                    },
+                    {
+                        q: "2. ¿Cuántos enanitos vivían en la casita del bosque?",
+                        options: ["Cinco enanitos", "Siete enanitos", "Diez enanitos"],
+                        correct: 1,
+                        exp: "Eran siete enanitos muy trabajadores."
+                    },
+                    {
+                        q: "3. ¿Cómo ayudaban los enanitos a Blancanieves?",
+                        options: ["La protegían con cariño", "Le daban tareas difíciles", "No jugaban con ella"],
+                        correct: 0,
+                        exp: "La cuidaban con mucho afecto y respeto."
+                    },
+                    {
+                        q: "4. ¿Qué valor demuestra esta historia?",
+                        options: ["La amabilidad y la amistad", "La mentira", "El desorden"],
+                        correct: 0,
+                        exp: "La amabilidad nos da grandes amigos."
+                    }
+                ]
+            },
+            {
+                id: 6,
+                title: "6. Pinocho",
+                icon: "🤥",
+                summary: "Un muñeco de madera aprende la importancia de decir la verdad.",
+                content: [
+                    "El carpintero Gepetto fabricó un hermoso muñeco de madera y lo llamó Pinocho.",
+                    "Un hada mágica le dio vida a Pinocho, pero le advirtió: —Si dices mentiras, ¡tu nariz de madera crecerá!",
+                    "Un día, Pinocho no fue a la escuela por ir a jugar y le dijo una mentira a Gepetto. De inmediato, ¡su nariz creció y creció!",
+                    "Pinocho se asustó mucho, pidió disculpas, prometió decir siempre la verdad y ayudar a su papá Gepetto.",
+                    "El hada mágica vio su arrepentimiento sincero y lo transformó en un niño de verdad."
+                ],
+                moral: "Decir la verdad nos hace personas honestas y de confianza para nuestra familia.",
+                questions: [
+                    {
+                        q: "1. ¿Qué le pasaba a la nariz de Pinocho cuando decía una mentira?",
+                        options: ["Le crecía", "Se ponía azul", "Desaparecía"],
+                        correct: 0,
+                        exp: "Su nariz crecía como señal de que decía una mentira."
+                    },
+                    {
+                        q: "2. ¿Quién hizo a Pinocho con sus manos?",
+                        options: ["El carpintero Gepetto", "El leñador", "El rey del castillo"],
+                        correct: 0,
+                        exp: "Gepetto lo fabricó con madera y mucho amor."
+                    },
+                    {
+                        q: "3. ¿Qué le prometió Pinocho a su papá?",
+                        options: ["Decir siempre la verdad", "No ir más a la escuela", "Comer solo golosinas"],
+                        correct: 0,
+                        exp: "Prometió ser honesto y decir siempre la verdad."
+                    },
+                    {
+                        q: "4. ¿En qué se convirtió Pinocho al final por ser bueno?",
+                        options: ["En un niño de verdad", "En un pájaro brillante", "En un robot"],
+                        correct: 0,
+                        exp: "El hada lo transformó en un niño real."
+                    }
+                ]
+            },
+            {
+                id: 7,
+                title: "7. Ricitos de Oro",
+                icon: "🥣",
+                summary: "Una niña curiosa aprende a respetar las cosas de los demás.",
+                content: [
+                    "Ricitos de Oro paseaba por el bosque y encontró la casita de la familia Oso.",
+                    "Entró sin tocar la puerta y probó la sopa de los tres platos. La del oso pequeño era la perfecta.",
+                    "Luego probó las tres sillas y la camita del oso pequeño, donde se quedó dormida.",
+                    "Cuando la familia Oso regresó, la niña se despertó asustada y comprendió que no debía tomar cosas ajenas sin pedir permiso.",
+                    "Ricitos pidió disculpas amablemente y aprendió la regla del respeto."
+                ],
+                moral: "Debemos pedir permiso antes de usar o tomar las cosas de otras personas.",
+                questions: [
+                    {
+                        q: "1. ¿De quién era la casita a la que entró Ricitos de Oro?",
+                        options: ["De la familia Oso", "De los tres cerditos", "De la abuelita"],
+                        correct: 0,
+                        exp: "Era la casita de Mamá Oso, Papá Oso y el Osito."
+                    },
+                    {
+                        q: "2. ¿Qué probó Ricitos en la mesa?",
+                        options: ["Platos de rica sopa", "Pasteles de chocolate", "Frutas frescas"],
+                        correct: 0,
+                        exp: "Probó los platos de sopa de los tres osos."
+                    },
+                    {
+                        q: "3. ¿Qué debió hacer Ricitos antes de entrar a la casa?",
+                        options: ["Tocar la puerta y pedir permiso", "Entrar corriendo", "Esconderse"],
+                        correct: 0,
+                        exp: "Siempre debemos tocar la puerta y pedir permiso."
+                    },
+                    {
+                        q: "4. ¿Cómo actuó Ricitos cuando los osos regresaron?",
+                        options: ["Pidió disculpas amablemente", "Se molestó", "Rompió un juguete"],
+                        correct: 0,
+                        exp: "Pidió disculpas sinceramente por su falta."
+                    }
+                ]
+            },
+            {
+                id: 8,
+                title: "8. El león y el ratón",
+                icon: "🦁",
+                summary: "Un pequeño ratoncito demuestra que todos podemos ayudar.",
+                content: [
+                    "Un gran león atrapó a un pequeño ratón. El ratoncito le rogó: —¡Por favor suéltame! Un día yo te ayudaré.",
+                    "El león se rió pensando que un ratón tan pequeño jamás podría ayudar a un rey de la selva, pero lo soltó.",
+                    "Días después, el león quedó atrapado en una red de cazadores. Rugió fuerte pidiendo auxilio.",
+                    "El ratoncito escuchó el rugido, corrió y con sus dientecitos filosos mordió las cuerdas de la red hasta liberarlo.",
+                    "El león le agradeció de corazón y desde ese día se hicieron grandes amigos."
+                ],
+                moral: "Nunca subestimes a nadie por su tamaño. Todos podemos brindar una gran ayuda.",
+                questions: [
+                    {
+                        q: "1. ¿Qué hizo el león al principio con el ratón?",
+                        options: ["Lo soltó generosamente", "Lo guardó en una caja", "Se fue corriendo"],
+                        correct: 0,
+                        exp: "El león decidió perdonarlo y soltarlo."
+                    },
+                    {
+                        q: "2. ¿Cómo ayudó el ratoncito al león más adelante?",
+                        options: ["Mordió las cuerdas de la red", "Le trajo agua", "Llamó a un elefante"],
+                        correct: 0,
+                        exp: "Mordió las redes con sus dientes filosos y lo liberó."
+                    },
+                    {
+                        q: "3. ¿Qué aprendió el poderoso león?",
+                        options: ["Que los amigos pequeños valen mucho", "Que los ratones corren feo", "Que debe vivir solo"],
+                        correct: 0,
+                        exp: "Aprendió que los amigos pequeños pueden dar grandes ayudas."
+                    },
+                    {
+                        q: "4. ¿Qué valor se resalta en el ratón?",
+                        options: ["La gratitud y la valentía", "El miedo", "El desorden"],
+                        correct: 0,
+                        exp: "Fue muy valiente y agradecido con el león."
+                    }
+                ]
+            },
+            {
+                id: 9,
+                title: "9. La cigarra y la hormiga",
+                icon: "🐜",
+                summary: "La importancia de prepararnos y trabajar para el futuro.",
+                content: [
+                    "Durante todo el verano, la cigarra se la pasó cantando y descansando sin trabajar.",
+                    "Mientras tanto, la pequeña hormiga trabajaba juntando granitos de trigo para tener alimento en el invierno.",
+                    "Cuando llegó el frío invierno, la cigarra no tenía qué comer ni dónde refugiarse y acudió a la hormiguita.",
+                    "La generosa hormiga le compartió comida, pero le dijo: —Debes trabajar en verano para tener alimento en invierno.",
+                    "La cigarra comprendió la lección y prometió esforzarse más la próxima vez."
+                ],
+                moral: "Es importante planificar, estudiar y trabajar a tiempo para no pasar apuros después.",
+                questions: [
+                    {
+                        q: "1. ¿Qué hacía la cigarra durante todo el cálido verano?",
+                        options: ["Cantaba y descansaba sin trabajar", "Juntaba comida", "Construía una casa"],
+                        correct: 0,
+                        exp: "Pasaba el tiempo cantando sin pensar en el invierno."
+                    },
+                    {
+                        q: "2. ¿Qué hacía la hormiguita trabajadora?",
+                        options: ["Juntaba granitos de trigo", "Dormía bajo una hoja", "Jugaba en el agua"],
+                        correct: 0,
+                        exp: "Trabajaba duro guardando alimentos."
+                    },
+                    {
+                        q: "3. ¿Qué pasó cuando llegó el invierno?",
+                        options: ["La cigarra tenía frío y hambre", "La cigarra tenía mucha comida", "Hizo calor"],
+                        correct: 0,
+                        exp: "La cigarra no tenía qué comer por no haber trabajado."
+                    },
+                    {
+                        q: "4. ¿Qué enseñanza nos deja la hormiga?",
+                        options: ["Que debemos ser previsores y responsables", "Que solo debemos cantar", "Que no debemos comer"],
+                        correct: 0,
+                        exp: "Planificar y hacer nuestras tareas a tiempo nos da tranquilidad."
+                    }
+                ]
+            },
+            {
+                id: 10,
+                title: "10. El pastorcito mentiroso",
+                icon: "🐑",
+                summary: "Un joven aprende que no debemos hacer bromas con la verdad.",
+                content: [
+                    "Un joven pastorcito cuidaba sus ovejas en el monte y se sentía aburrido.",
+                    "Para divertirse, gritó fuerte: —¡Socorro, viene el lobo! Los campesinos corrieron a ayudarlo, pero era una broma falsa.",
+                    "Hizo la misma broma varias veces y la gente del pueblo se molesto mucho con él.",
+                    "Un día, ¡el lobo verdaderamente apareció! El pastorcito gritó asustado: —¡Auxilio, de verdad viene el lobo!",
+                    "Pero los campesinos pensaron que era otra mentira y nadie fue a ayudarlo. El pastorcito perdió sus ovejas y aprendió a jamás mentir."
+                ],
+                moral: "Si dices mentiras con frecuencia, nadie te creerá cuando digas la verdad.",
+                questions: [
+                    {
+                        q: "1. ¿Qué broma mala hacía el pastorcito?",
+                        options: ["Gritaba falsamente que venía el lobo", "Escondía los sombreros", "Cantaba feo"],
+                        correct: 0,
+                        exp: "Engañaba a todos diciendo que venía el lobo."
+                    },
+                    {
+                        q: "2. ¿Qué pasó cuando el lobo vino de verdad?",
+                        options: ["Nadie le creyó por haber mentido antes", "Todos corrieron a ayudarlo", "El lobo se fue a dormir"],
+                        correct: 0,
+                        exp: "Como mintió muchas veces, la gente pensó que era otra broma."
+                    },
+                    {
+                        q: "3. ¿Por qué es malo decir mentiras?",
+                        options: ["Porque perdemos la confianza de las personas", "Porque da risa", "Porque nos regalan dulces"],
+                        correct: 0,
+                        exp: "La mentira rompe la confianza de nuestros amigos y familiares."
+                    },
+                    {
+                        q: "4. ¿Qué promesa debe hacer el pastorcito para el futuro?",
+                        options: ["Ser siempre honesto y no engañar", "No cuidar ovejas", "Hablar bajito"],
+                        correct: 0,
+                        exp: "Debe ser siempre sincero e impuntual con la verdad."
+                    }
+                ]
+            }
+        ];
+
+        /* ==================== DATA: 10 CANCIONES EDUCATIVAS ==================== */
+        const SONGS_DATA = [
+            {
+                id: 1,
+                title: "1. El Abecedario de la Alegría 🔤",
+                lyrics: [
+                    "Con la A de Ardilla vamos a empezar,",
+                    "con la B de Barco vamos a navegar.",
+                    "A, B, C, D, E, F, G...",
+                    "¡Cantar las letras nos hace feliz!",
+                    "H, I, J, K, L, M, N...",
+                    "¡Aprendo las letras super bien!"
+                ],
+                question: "¿Con qué letra empieza la palabra Ardilla?",
+                options: ["Con la A", "Con la Z", "Con la M"],
+                correct: 0
+            },
+            {
+                id: 2,
+                title: "2. Los Números del 1 al 20 🔢",
+                lyrics: [
+                    "Un elefantito se balanceaba (1),",
+                    "dos patitos nadan en el agua (2),",
+                    "tres gatitos saltan al compás (3),",
+                    "cuatro perritos van hacia atrás (4)...",
+                    "¡1, 2, 3, 4, 5, 6, 7, 8, 9, 10!",
+                    "¡Y seguimos contando hasta el 20 otra vez!"
+                ],
+                question: "¿Cuántos patitos nadaban en el agua en la canción?",
+                options: ["Dos patitos", "Diez patitos", "Cero patitos"],
+                correct: 0
+            },
+            {
+                id: 3,
+                title: "3. Los Colores del Arcoíris 🌈",
+                lyrics: [
+                    "Rojo es el tomate, azul es el mar,",
+                    "amarillo es el sol que nos va a alumbrar.",
+                    "Verde es la hojita, rosa es la flor,",
+                    "¡el arcoíris brilla con mucho amor!"
+                ],
+                question: "¿De qué color es el sol en la canción?",
+                options: ["Amarillo", "Verde", "Azul"],
+                correct: 0
+            },
+            {
+                id: 4,
+                title: "4. Animales de la Granja 🐮",
+                lyrics: [
+                    "En la granja de mi tío, ¡ia ia oh!",
+                    "La vaca hace muuu, el perro hace guau,",
+                    "el pollito pío pío, el gato hace miau.",
+                    "¡Todos los animales cantan con sabor!"
+                ],
+                question: "¿Qué sonido hace la vaca en la granja?",
+                options: ["Muuu", "Guau guau", "Pío pío"],
+                correct: 0
+            },
+            {
+                id: 5,
+                title: "5. Las Cinco Vocales 🖐️",
+                lyrics: [
+                    "A, E, I, O, U, ¡Aprende tú!",
+                    "A de Avión que vuela alto,",
+                    "E de Elefante dando un salto,",
+                    "I de Iglesia, O de Oso,",
+                    "U de Uva... ¡Qué sabroso!"
+                ],
+                question: "¿Cuántas vocales son en total?",
+                options: ["5 vocales", "10 vocales", "2 vocales"],
+                correct: 0
+            },
+            {
+                id: 6,
+                title: "6. Días de la Semana 📅",
+                lyrics: [
+                    "Lunes, Martes, Miércoles a estudiar,",
+                    "Jueves y Viernes para trabajar.",
+                    "Sábado y Domingo para descansar,",
+                    "¡Siete días hermosos para disfrutar!"
+                ],
+                question: "¿Cuántos días tiene la semana?",
+                options: ["Siete días", "Tres días", "Veinte días"],
+                correct: 0
+            },
+            {
+                id: 7,
+                title: "7. Partes de Mi Cuerpo 🧍",
+                lyrics: [
+                    "Cabeza, hombros, rodillas, pies...",
+                    "¡Ojos, orejas, boca y nariz también!",
+                    "Muevo mis manos para saludar,",
+                    "y con mis piernas me pongo a bailar."
+                ],
+                question: "¿Con qué parte del cuerpo saludamos según la canción?",
+                options: ["Con las manos", "Con las rodillas", "Con las orejas"],
+                correct: 0
+            },
+            {
+                id: 8,
+                title: "8. Lavado de Manos Musical 🧼",
+                lyrics: [
+                    "Agua y jabón, frota sin parar,",
+                    "las palmas y los dedos vamos a limpiar.",
+                    "Cuenta veinte segundos con alegría,",
+                    "¡manos super limpias todo el día!"
+                ],
+                question: "¿Cuántos segundos debemos frotar nuestras manos?",
+                options: ["20 segundos", "1 segundo", "1 hora"],
+                correct: 0
+            },
+            {
+                id: 9,
+                title: "9. Cuidemos el Planeta 🌍",
+                lyrics: [
+                    "Cierra el cañito, apaga la luz,",
+                    "cuida los árboles y el cielo azul.",
+                    "Tira la basura en su contenedor,",
+                    "¡cuidemos la Tierra con mucho amor!"
+                ],
+                question: "¿Dónde debemos depositar la basura?",
+                options: ["En el contenedor/tacho", "En el suelo", "En el río"],
+                correct: 0
+            },
+            {
+                id: 10,
+                title: "10. Comida Sana y Deliciosa 🥗",
+                lyrics: [
+                    "Manzanas, plátanos y brócoli crujiente,",
+                    "nos dan superpoderes para ser inteligentes.",
+                    "Agua pura y fresca para beber,",
+                    "¡sanos y fuertes vamos a crecer!"
+                ],
+                question: "¿Qué nos dan las frutas y verduras?",
+                options: ["Fuerza y superpoderes de salud", "Sueño", "Dolor de muelas"],
+                correct: 0
+            }
+        ];
+
+        /* ==================== DATA: 25 HÁBITOS SALUDABLES (5 CATEGORÍAS) ==================== */
+        const HABITS_DATA = [
+            // A. HIGIENE PERSONAL (1-6)
+            {
+                id: 1,
+                cat: "A",
+                catTitle: "🧼 Higiene Personal",
+                title: "1. Lavarse las manos antes de comer",
+                desc: "Lava tus manos con agua y jabón antes de probar tus alimentos. Así eliminas los microbios invisibles.",
+                example: "Ejemplo: En el recreo o en la mesa antes del almuerzo, pásate jabón por 20 segundos.",
+                q: "¿Cuándo debes lavarte las manos?",
+                opts: ["Antes de comer", "Después de dormir", "Nunca"],
+                correct: 0
+            },
+            {
+                id: 2,
+                cat: "A",
+                catTitle: "🧼 Higiene Personal",
+                title: "2. Lavarse las manos al salir del baño",
+                desc: "Al terminar de usar el baño, lava siempre tus manos para mantener tus bacterias alejadas.",
+                example: "Ejemplo: Abres el caño, usas jabón, te secas con una toalla limpia.",
+                q: "¿Por qué lavarse las manos tras ir al baño?",
+                opts: ["Para eliminar gérmenes", "Para mojar la ropa", "Para jugar"],
+                correct: 0
+            },
+            {
+                id: 3,
+                cat: "A",
+                catTitle: "🧼 Higiene Personal",
+                title: "3. Cepillarse los dientes 3 veces al día",
+                desc: "Limpia tus dientes después de comer y antes de dormir para evitar la caries y tener una sonrisa brillante.",
+                example: "Ejemplo: Haz movimientos circulares suaves con tu cepillo y pasta dental.",
+                q: "¿Cuántas veces al día es ideal cepillarse?",
+                opts: ["3 veces al día", "Una vez al mes", "Ninguna"],
+                correct: 0
+            },
+            {
+                id: 4,
+                cat: "A",
+                catTitle: "🧼 Higiene Personal",
+                title: "4. Bañarse regularmente",
+                desc: "El baño diario con agua y jabón limpia tu piel, retira el sudor y te llena de energía fresca.",
+                example: "Ejemplo: Bañarte después de jugar o hacer deporte te hace sentir descansado.",
+                q: "¿Qué nos ayuda a estar limpios y frescos?",
+                opts: ["Un buen baño con agua y jabón", "Pintarse la cara", "No lavarse"],
+                correct: 0
+            },
+            {
+                id: 5,
+                cat: "A",
+                catTitle: "🧼 Higiene Personal",
+                title: "5. Mantener las uñas cortas y limpias",
+                desc: "Debajo de las uñas se junta suciedad. Pide ayuda a un adulto para cortarlas con cuidado.",
+                example: "Ejemplo: Usar un cepillito de uñas durante el lavado de manos.",
+                q: "¿Quién debe ayudarte a cortar las uñas?",
+                opts: ["Un adulto responsable", "Nadie", "Un juguete"],
+                correct: 0
+            },
+            {
+                id: 6,
+                cat: "A",
+                catTitle: "🧼 Higiene Personal",
+                title: "6. Cubrirse con el antebrazo al toser",
+                desc: "Al toser o estornudar, cubre tu boca con la parte interna de tu codo (ángulo del brazo).",
+                example: "Ejemplo: Haz la postura del 'escudo del codo' para proteger a tus amiguitos.",
+                q: "¿Con qué te debes cubrir al estornudar?",
+                opts: ["Con la parte interna del codo", "Con las manos abiertas", "Sin cubrirse"],
+                correct: 0
+            },
+
+            // B. ALIMENTACIÓN SALUDABLE (7-12)
+            {
+                id: 7,
+                cat: "B",
+                catTitle: "🥗 Alimentación Saludable",
+                title: "7. Comer frutas todos los días",
+                desc: "Las frutas como manzanas, plátanos y naranjas están llenas de vitaminas y energía natural.",
+                example: "Ejemplo: Llevar una manzana deliciosa en tu lonchera escolar.",
+                q: "¿Qué nos brindan las frutas?",
+                opts: ["Vitaminas y salud", "Caries", "Cansancio"],
+                correct: 0
+            },
+            {
+                id: 8,
+                cat: "B",
+                catTitle: "🥗 Alimentación Saludable",
+                title: "8. Comer verduras coloridas",
+                desc: "Las verduras como zanahorias, tomates y brócoli hacen que tus ojos y huesos crezcan fuertes.",
+                example: "Ejemplo: Disfrutar de una ensalada fresca con limón en el almuerzo.",
+                q: "¿Qué verdura ayuda a la vista?",
+                opts: ["La zanahoria", "El caramelo", "La gaseosa"],
+                correct: 0
+            },
+            {
+                id: 9,
+                cat: "B",
+                catTitle: "🥗 Alimentación Saludable",
+                title: "9. Beber agua pura",
+                desc: "El agua refresca tu cuerpo y ayuda a tu cerebro a pensar mejor durante el día de clases.",
+                example: "Ejemplo: Tomar un sorbo de agua limpia de tu tomatodo cuando sientas sed.",
+                q: "¿Qué bebida es la más saludable para la sed?",
+                opts: ["Agua pura", "Gaseosa con colorantes", "Jugo con mucha azúcar"],
+                correct: 0
+            },
+            {
+                id: 10,
+                cat: "B",
+                catTitle: "🥗 Alimentación Saludable",
+                title: "10. Tomar un buen desayuno",
+                desc: "El desayuno es el combustible del día. Te despierta y te da ánimos para aprender a leer.",
+                example: "Ejemplo: Tomar avena con leche y una fruta antes de ir a la escuela.",
+                q: "¿Por qué es importante el desayuno?",
+                opts: ["Nos da energía para aprender", "Nos da sueño", "No sirve para nada"],
+                correct: 0
+            },
+            {
+                id: 11,
+                cat: "B",
+                catTitle: "🥗 Alimentación Saludable",
+                title: "11. Comer alimentos variados y nutritivos",
+                desc: "Combinar cereales, menestras, huevos y carnes sanas hace que tu plato sea super completo.",
+                example: "Ejemplo: Comer un rico plato de lentejas con ensalada.",
+                q: "¿Qué hace que un plato sea nutritivo?",
+                opts: ["Tener variedad de alimentos sanos", "Tener solo papas fritas", "Estar vacío"],
+                correct: 0
+            },
+            {
+                id: 12,
+                cat: "B",
+                catTitle: "🥗 Alimentación Saludable",
+                title: "12. Reducir los dulces y golosinas",
+                desc: "Los chocolates y caramelos se comen solo de vez en cuando, porque mucho azúcar daña los dientes.",
+                example: "Ejemplo: Preferir una fruta dulce en lugar de un caramelo industrial.",
+                q: "¿Por qué no debemos comer dulces todos los días?",
+                opts: ["Porque pueden picar nuestros dientes", "Porque son verdes", "Porque dan fuerza"],
+                correct: 0
+            },
+
+            // C. ACTIVIDAD FÍSICA Y DESCANSO (13-16)
+            {
+                id: 13,
+                cat: "C",
+                catTitle: "⚽ Actividad Física y Descanso",
+                title: "13. Jugar y hacer ejercicio a diario",
+                desc: "Correr, saltar la soga o jugar en el parque fortalece tu corazón y tus músculos.",
+                example: "Ejemplo: Jugar a las atrapadas o a la pelota en el patio del colegio.",
+                q: "¿Qué beneficia el juego físico?",
+                opts: ["Mantiene el cuerpo fuerte y feliz", "Nos pone tristes", "Aburre"],
+                correct: 0
+            },
+            {
+                id: 14,
+                cat: "C",
+                catTitle: "⚽ Actividad Física y Descanso",
+                title: "14. Dormir de 10 a 11 horas de noche",
+                desc: "Mientras duermes, tu cuerpo crece y tu cerebro organiza todo lo que aprendiste en el colegio.",
+                example: "Ejemplo: Ir a la cama temprano a las 8:00 p.m. para despertar con alegría.",
+                q: "¿Qué ocurre en tu cuerpo mientras duermes?",
+                opts: ["Creces y recargas energías", "Te pones débil", "Se te olvidan las cosas"],
+                correct: 0
+            },
+            {
+                id: 15,
+                cat: "C",
+                catTitle: "⚽ Actividad Física y Descanso",
+                title: "15. Mantener horarios regulares para acostarte",
+                desc: "Acostarte a la misma hora le enseña a tu cuerpo a descansar profundamente sin estrés.",
+                example: "Ejemplo: Apagar las pantallas 30 minutos antes de dormir.",
+                q: "¿Qué ayuda a conciliar un sueño tranquilo?",
+                opts: ["Apagar las pantallas e ir a dormir a la misma hora", "Jugar videojuegos de noche", "Tomar café"],
+                correct: 0
+            },
+            {
+                id: 16,
+                cat: "C",
+                catTitle: "⚽ Actividad Física y Descanso",
+                title: "16. Hacer pausas activas al estudiar",
+                desc: "Después de leer o escribir por un rato, ponte de pie, estira los brazos y respira hondo.",
+                example: "Ejemplo: Estirar la espalda como un gatito entre tarea y tarea.",
+                q: "¿Qué debes hacer tras estudiar un buen rato?",
+                opts: ["Ponerte de pie y estirarte un momento", "Seguir sin descansar 5 horas", "Enojarte"],
+                correct: 0
+            },
+
+            // D. BIENESTAR EMOCIONAL Y CONVIVENCIA (17-20)
+            {
+                id: 17,
+                cat: "D",
+                catTitle: "❤️ Bienestar Emocional",
+                title: "17. Expresar lo que sientes con respeto",
+                desc: "Decir 'me siento feliz', 'estoy triste' o 'me molesté' con palabras tranquilas nos ayuda a entendernos.",
+                example: "Ejemplo: Decirle a un amigo: 'No me gustó que tomaras mi lápiz sin avisar'.",
+                q: "¿Cómo es mejor expresar nuestras emociones?",
+                opts: ["Usando palabras amables", "Gritando y pateando", "Guardando todo con rabia"],
+                correct: 0
+            },
+            {
+                id: 18,
+                cat: "D",
+                catTitle: "❤️ Bienestar Emocional",
+                title: "18. Pedir ayuda a un adulto de confianza",
+                desc: "Si te sientes asustado, triste o en apuros, cuéntaselo a tus papás o a tu profesora.",
+                example: "Ejemplo: Acercarte a tu maestra si te duele la pancita en clase.",
+                q: "¿A quién acudir cuando necesitas apoyo?",
+                opts: ["A un adulto de confianza (papás o profesora)", "A un desconocido", "A nadie"],
+                correct: 0
+            },
+            {
+                id: 19,
+                cat: "D",
+                catTitle: "❤️ Bienestar Emocional",
+                title: "19. Compartir y respetar a tus compañeros",
+                desc: "Prestar los colores y escuchar la opinión de los demás crea un aula llena de paz y sonrisas.",
+                example: "Ejemplo: Decir 'por favor' y 'gracias' al prestar un borrador.",
+                q: "¿Qué palabras mágicas demuestran respeto?",
+                opts: ["Por favor y gracias", "Gritos", "Exigencias"],
+                correct: 0
+            },
+            {
+                id: 20,
+                cat: "D",
+                catTitle: "❤️ Bienestar Emocional",
+                title: "20. Practicar la respiración de la estrella",
+                desc: "Cuando sientas rabia o nervios, inhala aire despacio contando hasta 3 y suéltalo como soplando una vela.",
+                example: "Ejemplo: Dibujar una estrella en el aire con tu dedo mientras respiras suave.",
+                q: "¿Qué ayuda a calmar la molestia o enfado?",
+                opts: ["Respirar profundo y despacio", "Tirar los juguetes", "Llorar en el suelo"],
+                correct: 0
+            },
+
+            // E. SEGURIDAD Y CUIDADO DEL ENTORNO (21-25)
+            {
+                id: 21,
+                cat: "E",
+                catTitle: "🛡️ Seguridad y Entorno",
+                title: "21. Cruzar la calle de la mano de un adulto",
+                desc: "Mira a la izquierda y derecha antes de cruzar y siempre camina tomado de la mano de un familiar.",
+                example: "Ejemplo: Esperar a que el semáforo esté en verde para peatones.",
+                q: "¿Cómo debemos cruzar la calle?",
+                opts: ["De la mano de un adulto mirando a ambos lados", "Corriendo solo con los ojos cerrados", "Jugando a la pelota en la pista"],
+                correct: 0
+            },
+            {
+                id: 22,
+                cat: "E",
+                catTitle: "🛡️ Seguridad y Entorno",
+                title: "22. Nunca irse con personas desconocidas",
+                desc: "Si alguien que no conoces te invita a irte o te ofrece dulces, di NO con fuerza y busca a tu familia.",
+                example: "Ejemplo: Decir '¡No conozco a esta persona!' si alguien extraño te habla.",
+                q: "¿Qué debes hacer si un desconocido te llama?",
+                opts: ["Decir NO y avisar de inmediato a tu adulto", "Irte con esa persona", "Aceptar un regalo"],
+                correct: 0
+            },
+            {
+                id: 23,
+                cat: "E",
+                catTitle: "🛡️ Seguridad y Entorno",
+                title: "23. Mantener limpia el aula y tu habitación",
+                desc: "Guardar tus juguetes y útiles escolares ordenados evita accidentes y mantiene tu espacio hermoso.",
+                example: "Ejemplo: Colocar los cuadernos en la mochila al terminar la tarea.",
+                q: "¿Por qué es importante el orden?",
+                opts: ["Evita tropezones y mantiene la armonía", "Para esconder cosas", "No sirve"],
+                correct: 0
+            },
+            {
+                id: 24,
+                cat: "E",
+                catTitle: "🛡️ Seguridad y Entorno",
+                title: "24. Depositar la basura en el tacho",
+                desc: "No arrojes envolturas al suelo. Colócalas en el tacho para cuidar a las plantas y los animalitos.",
+                example: "Ejemplo: Guardar la cáscara de plátano hasta encontrar un tacho de basura.",
+                q: "¿Dónde se bota la cáscara de fruta?",
+                opts: ["En el tacho de basura", "En el piso del salón", "Por la ventana"],
+                correct: 0
+            },
+            {
+                id: 25,
+                cat: "E",
+                catTitle: "🛡️ Seguridad y Entorno",
+                title: "25. Lavarse las manos tras jugar con tierra",
+                desc: "Jugar en el jardín es divertido, pero al entrar debes lavarte las manos antes de tocarte la cara.",
+                example: "Ejemplo: Usar abundante agua y jabón tras tocar plantas o mascotas.",
+                q: "¿Qué hacer después de tocar tierra o mascotas?",
+                opts: ["Lavarte bien las manos con jabón", "Comer directamente", "Frotarte los ojos"],
+                correct: 0
+            }
+        ];
+
+        /* ==================== BADGES & MEDALS SYSTEM ==================== */
+        const BADGES_DATA = [
+            { id: 'b_story_1', title: 'Estrella Lectora 📖', desc: 'Leíste tu primer cuento mágico', icon: '⭐', condition: state => state.completedStories.length >= 1 },
+            { id: 'b_story_all', title: 'Campeón de los Cuentos 👑', desc: 'Completaste los 10 cuentos mágicos', icon: '🏆', condition: state => state.completedStories.length >= 10 },
+            { id: 'b_song', title: 'Explorador Musical 🎵', desc: 'Escuchaste y cantaste canciones', icon: '🎤', condition: state => state.completedSongs.length >= 3 },
+            { id: 'b_habit', title: 'Guardián de los Hábitos 🍎', desc: 'Practicaste 10 hábitos saludables', icon: '🛡️', condition: state => state.practicedHabits.length >= 10 },
+            { id: 'b_super', title: 'Súper Aprendiz ✨', desc: 'Alcanzaste más de 50 estrellas mágicas', icon: '🌟', condition: state => state.stars >= 50 }
+        ];
+
+
+        /* ==================== APP INITIALIZATION ==================== */
+        window.onload = function() {
+            loadSavedProgress();
+            renderStoriesGrid();
+            renderSongsGrid();
+            renderHabitsGrid('all');
+            renderBadges();
+            updateUIStats();
+        };
+
+        // Save & Load LocalStorage
+        function saveProgress() {
+            try {
+                localStorage.setItem('MUNDO_MAGICO_STATE', JSON.stringify(APP_STATE));
+            } catch(e) { console.log('Storage Error', e); }
+        }
+
+        function loadSavedProgress() {
+            try {
+                const saved = localStorage.getItem('MUNDO_MAGICO_STATE');
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    Object.assign(APP_STATE, parsed);
+                }
+            } catch(e) { console.log('Load error', e); }
+        }
+
+        // Add Stars and handle Level up
+        function addStars(amount) {
+            APP_STATE.stars += amount;
+            playSound('star');
+            
+            // Calculate Level: 1 Level per 20 stars
+            const newLevel = Math.floor(APP_STATE.stars / 20) + 1;
+            if (newLevel > APP_STATE.level) {
+                APP_STATE.level = newLevel;
+                speakText("¡Felicidades, subiste al Nivel " + newLevel + "!");
+            }
+            saveProgress();
+            updateUIStats();
+            checkBadges();
+        }
+
+        function updateUIStats() {
+            document.getElementById('user-stars').innerText = APP_STATE.stars;
+            document.getElementById('user-level').innerText = APP_STATE.level;
+            document.getElementById('header-avatar').innerText = APP_STATE.avatar;
+            document.getElementById('profile-avatar-display').innerText = APP_STATE.avatar;
+
+            // Stats tab
+            document.getElementById('stat-stories').innerText = `${APP_STATE.completedStories.length} / 10`;
+            document.getElementById('stat-songs').innerText = `${APP_STATE.completedSongs.length} / 10`;
+            document.getElementById('stat-habits').innerText = `${APP_STATE.practicedHabits.length} / 25`;
+            document.getElementById('stat-games').innerText = APP_STATE.completedGames;
+            document.getElementById('habits-today-count').innerText = APP_STATE.practicedHabits.length;
+
+            // Level Progress Bar
+            const progressInLevel = (APP_STATE.stars % 20) * 5; // percentage
+            document.getElementById('level-progress-bar').style.width = progressInLevel + '%';
+            document.getElementById('level-progress-text').innerText = `${APP_STATE.stars} Estrellas Totales`;
+        }
+
+        function setAvatar(emoji) {
+            APP_STATE.avatar = emoji;
+            playSound('click');
+            saveProgress();
+            updateUIStats();
+            speakText("¡Genial! Ahora tu personaje es " + emoji);
+        }
+
+        /* ==================== NAVIGATION ROUTER ==================== */
+        function showSection(sectionId) {
+            playSound('click');
+            stopSpeech();
+
+            // Hide all sections
+            document.querySelectorAll('.section-block').forEach(sec => sec.classList.add('hidden'));
+
+            // Show target
+            const target = document.getElementById('sec-' + sectionId);
+            if (target) {
+                target.classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            // Update Saby Owl Banner Dialogue according to active section
+            const sabyText = document.getElementById('saby-dialogue');
+            if (sectionId === 'inicio') {
+                sabyText.innerText = "¡Hola explorador! Elige entre cuentos, canciones, hábitos o juegos para comenzar a divertirte.";
+            } else if (sectionId === 'cuentos') {
+                sabyText.innerText = "¡Bienvenidos a la biblioteca de Cuentos Mágicos! Haz clic en cualquier cuento para leer o escucharlo.";
+            } else if (sectionId === 'canciones') {
+                sabyText.innerText = "¡Hora de cantar! Escucha las canciones y responde las preguntas divertidas para ganar estrellas.";
+            } else if (sectionId === 'habitos') {
+                sabyText.innerText = "Aquí descubrirás 25 hábitos saludables. ¡Marca los que practicaste hoy!";
+            } else if (sectionId === 'juegos') {
+                sabyText.innerText = "¡Pon a prueba tus superpoderes en nuestros juegos interactivos!";
+            } else if (sectionId === 'logros') {
+                sabyText.innerText = "¡Mira todas las medallas y estrellas que has ganado! ¡Sigue así!";
+            }
+        }
+
+        function speakSabyDialogue() {
+            const text = document.getElementById('saby-dialogue').innerText;
+            speakText(text);
+        }
+
+        function speakSabyWelcome() {
+            playSound('click');
+            speakText("¡Hola! Soy Saby el Búho Sabio. ¡Estoy feliz de aprender contigo hoy!");
+        }
+
+
+        /* ==================== LOGIC 2: CUENTOS MÁGICOS ==================== */
+        let currentStoryObj = null;
+
+        function renderStoriesGrid() {
+            const container = document.getElementById('cuentos-grid');
+            container.innerHTML = STORIES_DATA.map(story => {
+                const isDone = APP_STATE.completedStories.includes(story.id);
+                return `
+                    <div onclick="openCuentoReader(${story.id})" class="card-magica cursor-pointer bg-white border-4 ${isDone ? 'border-emerald-400' : 'border-pink-200'} rounded-3xl p-5 flex flex-col justify-between text-center relative overflow-hidden">
+                        ${isDone ? '<span class="absolute top-3 right-3 bg-emerald-500 text-white text-xs font-bold px-2 py-0.5 rounded-full shadow">✓ Leído</span>' : ''}
+                        <div class="text-6xl my-2">${story.icon}</div>
+                        <div>
+                            <h3 class="font-extrabold text-pink-700 text-xl mb-1">${story.title}</h3>
+                            <p class="text-xs text-gray-600 line-clamp-2">${story.summary}</p>
+                        </div>
+                        <button class="mt-4 w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 rounded-2xl text-sm btn-magico">
+                            📖 Leer Cuento
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openCuentoReader(storyId) {
+            playSound('click');
+            currentStoryObj = STORIES_DATA.find(s => s.id === storyId);
+            if (!currentStoryObj) return;
+
+            document.getElementById('cuentos-grid').classList.add('hidden');
+            document.getElementById('cuento-reader').classList.remove('hidden');
+            document.getElementById('cuento-evaluation').classList.add('hidden');
+
+            document.getElementById('reader-icon').innerText = currentStoryObj.icon;
+            document.getElementById('reader-title').innerText = currentStoryObj.title;
+            document.getElementById('reader-moral').innerText = currentStoryObj.moral;
+
+            const contentContainer = document.getElementById('reader-content');
+            contentContainer.innerHTML = currentStoryObj.content.map(para => `<p class="mb-3">${para}</p>`).join('');
+
+            window.scrollTo({ top: document.getElementById('cuento-reader').offsetTop - 20, behavior: 'smooth' });
+        }
+
+        function closeCuentoReader() {
+            playSound('click');
+            stopSpeech();
+            document.getElementById('cuento-reader').classList.add('hidden');
+            document.getElementById('cuento-evaluation').classList.add('hidden');
+            document.getElementById('cuentos-grid').classList.remove('hidden');
+            renderStoriesGrid();
+        }
+
+        function speakCurrentStory() {
+            if (!currentStoryObj) return;
+            const fullText = currentStoryObj.title + ". " + currentStoryObj.content.join(" ");
+            speakText(fullText);
+        }
+
+        /* Story Evaluation Screen Logic */
+        function startCuentoEvaluation() {
+            playSound('click');
+            stopSpeech();
+            if (!currentStoryObj) return;
+
+            document.getElementById('cuento-reader').classList.add('hidden');
+            document.getElementById('cuento-evaluation').classList.remove('hidden');
+            document.getElementById('eval-story-title').innerText = `Evaluación: ${currentStoryObj.title}`;
+
+            // Reset evaluation box
+            document.getElementById('eval-results-box').classList.add('hidden');
+            document.getElementById('btn-submit-eval').classList.remove('hidden');
+
+            // Render all 4 questions on one single screen
+            const container = document.getElementById('eval-questions-container');
+            container.innerHTML = currentStoryObj.questions.map((q, idx) => `
+                <div class="bg-purple-50 border-2 border-purple-200 rounded-2xl p-5 text-left">
+                    <h4 class="font-bold text-purple-900 text-base mb-3">${q.q}</h4>
+                    <div class="space-y-2">
+                        ${q.options.map((opt, optIdx) => `
+                            <label class="flex items-center gap-3 bg-white border border-purple-200 p-3 rounded-xl cursor-pointer hover:bg-purple-100 transition">
+                                <input type="radio" name="q_${idx}" value="${optIdx}" class="w-5 h-5 text-purple-600 focus:ring-purple-400">
+                                <span class="text-sm font-medium text-gray-800">${opt}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+
+            window.scrollTo({ top: document.getElementById('cuento-evaluation').offsetTop - 20, behavior: 'smooth' });
+        }
+
+        function submitCuentoEval() {
+            playSound('click');
+            if (!currentStoryObj) return;
+
+            let correctCount = 0;
+            let missedExplanations = [];
+
+            currentStoryObj.questions.forEach((q, idx) => {
+                const selected = document.querySelector(`input[name="q_${idx}"]:checked`);
+                if (selected && parseInt(selected.value) === q.correct) {
+                    correctCount++;
+                } else {
+                    missedExplanations.push(`Pregunta ${idx+1}: ${q.exp}`);
+                }
+            });
+
+            // Display results
+            const resultsBox = document.getElementById('eval-results-box');
+            resultsBox.classList.remove('hidden');
+            document.getElementById('btn-submit-eval').classList.add('hidden');
+
+            const total = currentStoryObj.questions.length;
+            document.getElementById('eval-score-text').innerText = `Respondiste correctamente ${correctCount} de ${total} preguntas.`;
+
+            const errBreakdown = document.getElementById('eval-errors-breakdown');
+            if (missedExplanations.length > 0) {
+                errBreakdown.classList.remove('hidden');
+                errBreakdown.innerHTML = "<strong>💡 Explicación amable para repasar:</strong><br/>" + missedExplanations.join("<br/>");
+            } else {
+                errBreakdown.classList.add('hidden');
+            }
+
+            if (correctCount === total) {
+                playSound('success');
+                document.getElementById('eval-score-stars').innerText = "⭐⭐⭐⭐⭐";
+                document.getElementById('eval-score-title').innerText = "¡Puntaje Perfecto! 🌟";
+                speakText("¡Excelente trabajo! Has respondido todo perfecto.");
+                
+                // Award completion
+                if (!APP_STATE.completedStories.includes(currentStoryObj.id)) {
+                    APP_STATE.completedStories.push(currentStoryObj.id);
+                    addStars(10);
+                }
+            } else {
+                playSound('star');
+                document.getElementById('eval-score-stars').innerText = "⭐⭐⭐";
+                document.getElementById('eval-score-title').innerText = "¡Buen Intento!";
+                speakText("¡Muy bien por tu esfuerzo! Sigue aprendiendo cada día más.");
+                addStars(5);
+            }
+
+            renderStoriesGrid();
+        }
+
+        function retryCuentoEval() {
+            startCuentoEvaluation();
+        }
+
+        function closeCuentoEval() {
+            closeCuentoReader();
+        }
+
+
+        /* ==================== LOGIC 3: CANCIONES EDUCATIVAS ==================== */
+        let currentSongObj = null;
+
+        function renderSongsGrid() {
+            const container = document.getElementById('canciones-grid');
+            container.innerHTML = SONGS_DATA.map(song => {
+                const isDone = APP_STATE.completedSongs.includes(song.id);
+                return `
+                    <div onclick="openSongPlayer(${song.id})" class="card-magica cursor-pointer bg-white border-4 ${isDone ? 'border-amber-400' : 'border-yellow-200'} rounded-3xl p-5 flex flex-col justify-between text-center">
+                        <div class="text-6xl my-2">🎤</div>
+                        <div>
+                            <h3 class="font-extrabold text-amber-800 text-lg mb-1">${song.title}</h3>
+                            <p class="text-xs text-gray-500 font-medium">Melodía rítmica educativa</p>
+                        </div>
+                        <button class="mt-4 bg-amber-400 hover:bg-amber-500 text-gray-900 font-bold py-2 rounded-2xl text-sm btn-magico">
+                            ▶️ Escuchar Canción
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openSongPlayer(songId) {
+            playSound('click');
+            currentSongObj = SONGS_DATA.find(s => s.id === songId);
+            if (!currentSongObj) return;
+
+            document.getElementById('canciones-grid').classList.add('hidden');
+            document.getElementById('cancion-player').classList.remove('hidden');
+
+            document.getElementById('song-title').innerText = currentSongObj.title;
+            
+            const lyricsContainer = document.getElementById('song-lyrics');
+            lyricsContainer.innerHTML = currentSongObj.lyrics.map(line => `<p class="italic">"${line}"</p>`).join('');
+
+            // Song mini challenge
+            document.getElementById('song-question').innerText = currentSongObj.question;
+            document.getElementById('song-game-feedback').classList.add('hidden');
+
+            const optionsContainer = document.getElementById('song-options');
+            optionsContainer.innerHTML = currentSongObj.options.map((opt, idx) => `
+                <button onclick="checkSongAnswer(${idx})" class="bg-white border-2 border-purple-300 text-purple-900 font-bold px-4 py-2 rounded-xl text-sm hover:bg-purple-100 btn-magico">
+                    ${opt}
+                </button>
+            `).join('');
+
+            window.scrollTo({ top: document.getElementById('cancion-player').offsetTop - 20, behavior: 'smooth' });
+        }
+
+        function closeCancionPlayer() {
+            playSound('click');
+            stopSpeech();
+            document.getElementById('cancion-player').classList.add('hidden');
+            document.getElementById('canciones-grid').classList.remove('hidden');
+            renderSongsGrid();
+        }
+
+        function playSynthesizedSong() {
+            if (!currentSongObj) return;
+            playSound('star');
+            const songText = currentSongObj.lyrics.join(". ");
+            speakText(songText);
+        }
+
+        function stopSong() {
+            stopSpeech();
+        }
+
+        function checkSongAnswer(selectedIdx) {
+            playSound('click');
+            const feedback = document.getElementById('song-game-feedback');
+            feedback.classList.remove('hidden');
+
+            if (selectedIdx === currentSongObj.correct) {
+                playSound('success');
+                feedback.className = "mt-3 font-bold text-sm text-emerald-600 bg-emerald-50 p-2 rounded-xl";
+                feedback.innerText = "¡Correcto! ⭐ Ganaste +5 estrellas musicales";
+                
+                if (!APP_STATE.completedSongs.includes(currentSongObj.id)) {
+                    APP_STATE.completedSongs.push(currentSongObj.id);
+                    addStars(5);
+                }
+            } else {
+                feedback.className = "mt-3 font-bold text-sm text-amber-600 bg-amber-50 p-2 rounded-xl";
+                feedback.innerText = "¡Casi! Inténtalo de nuevo con alegría.";
+            }
+        }
+
+
+        /* ==================== LOGIC 4: HÁBITOS SALUDABLES ==================== */
+        function filterHabits(category) {
+            playSound('click');
+            // update tab buttons style
+            document.querySelectorAll('.habit-tab').forEach(btn => {
+                btn.classList.remove('bg-emerald-600', 'text-white');
+                btn.classList.add('bg-white', 'text-gray-700');
+            });
+            event.target.classList.remove('bg-white', 'text-gray-700');
+            event.target.classList.add('bg-emerald-600', 'text-white');
+
+            renderHabitsGrid(category);
+        }
+
+        function renderHabitsGrid(catFilter = 'all') {
+            const container = document.getElementById('habitos-grid');
+            const habits = catFilter === 'all' ? HABITS_DATA : HABITS_DATA.filter(h => h.cat === catFilter);
+
+            container.innerHTML = habits.map(h => {
+                const isPracticed = APP_STATE.practicedHabits.includes(h.id);
+                return `
+                    <div class="card-magica bg-white border-3 ${isPracticed ? 'border-emerald-400 bg-emerald-50/30' : 'border-emerald-200'} rounded-3xl p-5 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800">${h.catTitle}</span>
+                                <button onclick="toggleHabitCheck(${h.id})" class="text-xl px-2 py-1 rounded-xl ${isPracticed ? 'bg-emerald-500 text-white' : 'bg-gray-100 text-gray-400'} border transition">
+                                    ${isPracticed ? '✓ Hecho' : '⭕ Marcar'}
+                                </button>
+                            </div>
+                            <h3 class="font-extrabold text-emerald-900 text-base mb-2">${h.title}</h3>
+                            <p class="text-xs text-gray-700 mb-3">${h.desc}</p>
+                            <div class="bg-amber-50 p-2.5 rounded-xl border border-amber-200 text-xs text-amber-900 italic font-medium mb-3">
+                                💡 ${h.example}
+                            </div>
+                        </div>
+
+                        <!-- Mini quick check question -->
+                        <div class="border-t border-dashed pt-3 mt-1">
+                            <p class="text-xs font-bold text-gray-600 mb-2">${h.q}</p>
+                            <div class="flex flex-col gap-1.5">
+                                ${h.opts.map((opt, oIdx) => `
+                                    <button onclick="checkHabitAnswer(this, ${oIdx === h.correct})" class="text-xs bg-gray-50 border border-gray-200 py-1.5 px-3 rounded-xl hover:bg-emerald-100 font-medium text-left">
+                                        • ${opt}
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function toggleHabitCheck(habitId) {
+            playSound('click');
+            const idx = APP_STATE.practicedHabits.indexOf(habitId);
+            if (idx === -1) {
+                APP_STATE.practicedHabits.push(habitId);
+                addStars(2);
+                speakText("¡Excelente hábito cumplido!");
+            } else {
+                APP_STATE.practicedHabits.splice(idx, 1);
+                saveProgress();
+                updateUIStats();
+            }
+            renderHabitsGrid();
+        }
+
+        function checkHabitAnswer(btnElement, isCorrect) {
+            if (isCorrect) {
+                playSound('success');
+                btnElement.classList.remove('bg-gray-50', 'border-gray-200');
+                btnElement.classList.add('bg-emerald-500', 'text-white', 'font-bold');
+                btnElement.innerText = "✓ ¡Correcto! ¡Muy bien!";
+            } else {
+                playSound('click');
+                btnElement.classList.add('bg-red-100', 'text-red-700');
+                btnElement.innerText = "✕ Intenta con otra opción";
+            }
+        }
+
+
+        /* ==================== LOGIC 5: JUEGOS Y EVALUACIONES ==================== */
+        let currentGameId = 1;
+        let currentGameDifficulty = 'fácil';
+
+        function startMinigame(gameId) {
+            playSound('click');
+            currentGameId = gameId;
+            document.getElementById('juegos-menu').classList.add('hidden');
+            document.getElementById('minigame-container').classList.remove('hidden');
+
+            renderMinigameContent();
+        }
+
+        function closeMinigame() {
+            playSound('click');
+            document.getElementById('minigame-container').classList.add('hidden');
+            document.getElementById('juegos-menu').classList.remove('hidden');
+        }
+
+        function changeGameDifficulty() {
+            currentGameDifficulty = document.getElementById('game-difficulty').value;
+            renderMinigameContent();
+        }
+
+        function renderMinigameContent() {
+            const area = document.getElementById('game-content-area');
+
+            if (currentGameId === 1) {
+                // Game 1: Alimentos Saludables vs Golosinas
+                area.innerHTML = `
+                    <div class="text-center max-w-xl mx-auto">
+                        <h3 class="text-2xl font-bold text-emerald-800 mb-2">Clasificador de Alimentos 🍎🍬</h3>
+                        <p class="text-xs text-gray-600 mb-4">Haz clic en los alimentos que sean SALUDABLES para tu cuerpo:</p>
+                        
+                        <div id="food-items-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6">
+                            <button onclick="chooseFood(this, true)" class="bg-emerald-50 border-2 border-emerald-300 p-4 rounded-2xl text-4xl hover:scale-105 transition btn-magico flex flex-col items-center">🍎 <span class="text-xs font-bold mt-1">Manzana</span></button>
+                            <button onclick="chooseFood(this, false)" class="bg-pink-50 border-2 border-pink-300 p-4 rounded-2xl text-4xl hover:scale-105 transition btn-magico flex flex-col items-center">🍭 <span class="text-xs font-bold mt-1">Paleta</span></button>
+                            <button onclick="chooseFood(this, true)" class="bg-emerald-50 border-2 border-emerald-300 p-4 rounded-2xl text-4xl hover:scale-105 transition btn-magico flex flex-col items-center">🥦 <span class="text-xs font-bold mt-1">Brócoli</span></button>
+                            <button onclick="chooseFood(this, false)" class="bg-pink-50 border-2 border-pink-300 p-4 rounded-2xl text-4xl hover:scale-105 transition btn-magico flex flex-col items-center">🍩 <span class="text-xs font-bold mt-1">Dona</span></button>
+                            <button onclick="chooseFood(this, true)" class="bg-emerald-50 border-2 border-emerald-300 p-4 rounded-2xl text-4xl hover:scale-105 transition btn-magico flex flex-col items-center">🥕 <span class="text-xs font-bold mt-1">Zanahoria</span></button>
+                            <button onclick="chooseFood(this, true)" class="bg-emerald-50 border-2 border-emerald-300 p-4 rounded-2xl text-4xl hover:scale-105 transition btn-magico flex flex-col items-center">🥛 <span class="text-xs font-bold mt-1">Leche</span></button>
+                        </div>
+                        <div id="game-feedback" class="font-bold text-sm h-6"></div>
+                    </div>
+                `;
+            } else if (currentGameId === 2) {
+                // Game 2: Pasos de Lavado de Manos
+                area.innerHTML = `
+                    <div class="text-center max-w-xl mx-auto">
+                        <h3 class="text-2xl font-bold text-sky-800 mb-2">Ordena el Lavado de Manos 🧼🖐️</h3>
+                        <p class="text-xs text-gray-600 mb-4">¿Cuál es el PRIMER paso correcto para lavarte las manos?</p>
+                        
+                        <div class="space-y-3 mb-6">
+                            <button onclick="chooseHandStep(this, true)" class="w-full bg-sky-50 border-2 border-sky-300 p-3 rounded-2xl text-sm font-bold text-sky-900 hover:bg-sky-100 btn-magico text-left flex items-center gap-3">
+                                <span class="text-2xl">💧</span> 1. Mojar las manos con agua limpia y usar jabón
+                            </button>
+                            <button onclick="chooseHandStep(this, false)" class="w-full bg-gray-50 border-2 border-gray-300 p-3 rounded-2xl text-sm font-bold text-gray-800 hover:bg-gray-100 btn-magico text-left flex items-center gap-3">
+                                <span class="text-2xl">🧻</span> Secarte con la toalla antes de usar agua
+                            </button>
+                        </div>
+                        <div id="game-feedback" class="font-bold text-sm h-6"></div>
+                    </div>
+                `;
+            } else if (currentGameId === 3) {
+                // Game 3: Relacionar Personajes
+                area.innerHTML = `
+                    <div class="text-center max-w-xl mx-auto">
+                        <h3 class="text-2xl font-bold text-pink-800 mb-2">¿De qué Cuento es? 👑</h3>
+                        <p class="text-xs text-gray-600 mb-4">¿A qué cuento pertenece la niña con la caperuza roja y la cesta?</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                            <button onclick="chooseStoryMatch(this, true)" class="bg-pink-100 border-2 border-pink-400 p-4 rounded-2xl font-bold text-pink-900 text-sm hover:bg-pink-200 btn-magico">
+                                🧺 Caperucita Roja
+                            </button>
+                            <button onclick="chooseStoryMatch(this, false)" class="bg-amber-100 border-2 border-amber-400 p-4 rounded-2xl font-bold text-amber-900 text-sm hover:bg-amber-200 btn-magico">
+                                🐷 Los Tres Cerditos
+                            </button>
+                        </div>
+                        <div id="game-feedback" class="font-bold text-sm h-6"></div>
+                    </div>
+                `;
+            } else if (currentGameId === 4) {
+                // Game 4: Vocales y Números
+                area.innerHTML = `
+                    <div class="text-center max-w-xl mx-auto">
+                        <h3 class="text-2xl font-bold text-amber-800 mb-2">Vocales y Números Mágicos 🔤</h3>
+                        <p class="text-xs text-gray-600 mb-2">¿Cuántas estrellas brillantes ves aquí?</p>
+                        <div class="text-4xl mb-4">⭐⭐⭐⭐⭐</div>
+                        <div class="flex justify-center gap-4 mb-6">
+                            <button onclick="chooseNumber(this, false)" class="bg-amber-100 border-2 border-amber-300 px-6 py-3 rounded-2xl font-bold text-xl btn-magico">3</button>
+                            <button onclick="chooseNumber(this, true)" class="bg-amber-400 border-2 border-amber-500 px-6 py-3 rounded-2xl font-bold text-xl btn-magico">5</button>
+                            <button onclick="chooseNumber(this, false)" class="bg-amber-100 border-2 border-amber-300 px-6 py-3 rounded-2xl font-bold text-xl btn-magico">8</button>
+                        </div>
+                        <div id="game-feedback" class="font-bold text-sm h-6"></div>
+                    </div>
+                `;
+            } else if (currentGameId === 5) {
+                // Game 5: Adivinanzas
+                area.innerHTML = `
+                    <div class="text-center max-w-xl mx-auto">
+                        <h3 class="text-2xl font-bold text-purple-800 mb-2">Adivinanza Mágica 🔮</h3>
+                        <div class="bg-purple-50 p-4 rounded-2xl border-2 border-purple-200 font-medium text-purple-900 mb-4 text-sm">
+                            "Llevo mi casa a la cuesta, camino sin tener patas y voy dejando mi huella con un hilito de plata. ¿Quién soy?"
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+                            <button onclick="chooseRiddle(this, true)" class="bg-white border-2 border-purple-300 p-3 rounded-2xl font-bold text-purple-900 text-sm hover:bg-purple-100 btn-magico">🐌 El Caracol</button>
+                            <button onclick="chooseRiddle(this, false)" class="bg-white border-2 border-purple-300 p-3 rounded-2xl font-bold text-purple-900 text-sm hover:bg-purple-100 btn-magico">🐶 El Perro</button>
+                            <button onclick="chooseRiddle(this, false)" class="bg-white border-2 border-purple-300 p-3 rounded-2xl font-bold text-purple-900 text-sm hover:bg-purple-100 btn-magico">🦋 La Mariposa</button>
+                        </div>
+                        <div id="game-feedback" class="font-bold text-sm h-6"></div>
+                    </div>
+                `;
+            }
+        }
+
+        // Mini Game Interaction Helpers
+        function gameWinReward() {
+            playSound('success');
+            APP_STATE.completedGames++;
+            addStars(5);
+            speakText("¡Muy bien! ¡Completaste el juego con éxito!");
+        }
+
+        function chooseFood(btn, isHealthy) {
+            const fb = document.getElementById('game-feedback');
+            if (isHealthy) {
+                btn.classList.add('bg-emerald-300');
+                fb.className = "text-emerald-600 font-bold";
+                fb.innerText = "¡Excelente! Alimento muy saludable. ⭐";
+                gameWinReward();
+            } else {
+                playSound('click');
+                fb.className = "text-pink-600 font-bold";
+                fb.innerText = "Esta es una golosina para comer solo de vez en cuando. ¡Prueba una fruta!";
+            }
+        }
+
+        function chooseHandStep(btn, isCorrect) {
+            const fb = document.getElementById('game-feedback');
+            if (isCorrect) {
+                fb.className = "text-emerald-600 font-bold";
+                fb.innerText = "¡Correcto! Primero mojar con agua y jabón. ⭐";
+                gameWinReward();
+            } else {
+                playSound('click');
+                fb.className = "text-amber-600 font-bold";
+                fb.innerText = "Recuerda mojar primero las manos antes de secar.";
+            }
+        }
+
+        function chooseStoryMatch(btn, isCorrect) {
+            const fb = document.getElementById('game-feedback');
+            if (isCorrect) {
+                fb.className = "text-emerald-600 font-bold";
+                fb.innerText = "¡Sí! Es Caperucita Roja. ⭐";
+                gameWinReward();
+            } else {
+                playSound('click');
+                fb.className = "text-amber-600 font-bold";
+                fb.innerText = "Inténtalo de nuevo.";
+            }
+        }
+
+        function chooseNumber(btn, isCorrect) {
+            const fb = document.getElementById('game-feedback');
+            if (isCorrect) {
+                fb.className = "text-emerald-600 font-bold";
+                fb.innerText = "¡Exacto! Hay 5 estrellas. ⭐";
+                gameWinReward();
+            } else {
+                playSound('click');
+                fb.className = "text-amber-600 font-bold";
+                fb.innerText = "Cuenta con tu dedito otra vez.";
+            }
+        }
+
+        function chooseRiddle(btn, isCorrect) {
+            const fb = document.getElementById('game-feedback');
+            if (isCorrect) {
+                fb.className = "text-emerald-600 font-bold";
+                fb.innerText = "¡Adivinaste! Es el caracol. ⭐";
+                gameWinReward();
+            } else {
+                playSound('click');
+                fb.className = "text-amber-600 font-bold";
+                fb.innerText = "Sigue pensando la respuesta.";
+            }
+        }
+
+
+        /* ==================== LOGIC 6: MEDALS & BADGES ==================== */
+        function checkBadges() {
+            BADGES_DATA.forEach(b => {
+                if (!APP_STATE.badgeUnlocked.includes(b.id) && b.condition(APP_STATE)) {
+                    APP_STATE.badgeUnlocked.push(b.id);
+                    speakText("¡Felicidades! Desbloqueaste la medalla " + b.title);
+                }
+            });
+            saveProgress();
+            renderBadges();
+        }
+
+        function renderBadges() {
+            const container = document.getElementById('badges-grid');
+            if (!container) return;
+
+            container.innerHTML = BADGES_DATA.map(b => {
+                const isUnlocked = APP_STATE.badgeUnlocked.includes(b.id);
+                return `
+                    <div class="bg-white border-2 ${isUnlocked ? 'border-amber-400 bg-amber-50/40' : 'border-gray-200 opacity-60'} rounded-2xl p-4 flex items-center gap-4">
+                        <div class="text-4xl p-2 rounded-2xl ${isUnlocked ? 'bg-amber-100' : 'bg-gray-100'}">${b.icon}</div>
+                        <div>
+                            <h4 class="font-bold text-gray-800 text-sm">${b.title}</h4>
+                            <p class="text-xs text-gray-500">${b.desc}</p>
+                            <span class="inline-block mt-1 text-[10px] font-bold px-2 py-0.5 rounded-full ${isUnlocked ? 'bg-emerald-100 text-emerald-800' : 'bg-gray-100 text-gray-500'}">
+                                ${isUnlocked ? '✓ Desbloqueado' : '🔒 Bloqueado'}
+                            </span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+    </script>
+</body>
+</html>
